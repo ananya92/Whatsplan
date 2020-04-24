@@ -69,4 +69,15 @@ router.post('/logout', (req, res) => {
   }
 })
 
+router.get('/all', (req, res) => {
+  User.find({}, (err, users) => {
+    if (err) {
+      console.log('Get all users error: ', err);
+    } 
+    else {
+      res.json(users);
+    }
+  })
+});
+
 module.exports = router;

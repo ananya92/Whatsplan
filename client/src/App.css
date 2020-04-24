@@ -18,3 +18,13 @@
   color: red;
   font-size: 12px;
 }
+
+.text {
+  font-size: 16px !important;
+}
+
+.form-input {
+  border-radius: .28571429rem !important;
+  padding: 15px 15px !important;
+  border-color: rgba(34, 36, 38, 0.15) !important;
+}

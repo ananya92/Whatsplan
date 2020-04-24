@@ -2,19 +2,24 @@ import axios from "axios";
 
 export default {
 
-    // Gets the books with the given search text
+    // Register new user
     registerUser: function (postData) {
         return axios.post("/api/user/register", postData);
     },
-    // Gets all favorite books
+    // Login request
     loginUser: function (postData) {
         return axios.post("/api/user/login", postData);
     },
-    // Deletes the post with the given id
+    // get the logged in user
     getUser: function () {
         return axios.get("/api/user");
     },
+    // logout user
     logoutUser: function () {
         return axios.post("/api/user/logout");
+    },
+    // get all registered users
+    getRegisteredUsers: function() {
+        return axios.get("/api/user/all");
     }
 };
