@@ -24,8 +24,8 @@ class LoginForm extends Component {
     }
 
     handleSubmit(event) {
-        event.preventDefault()
-        console.log('handleSubmit')
+        event.preventDefault();
+        console.log('handleSubmit');
 
         API.loginUser({
                 username: this.state.username,
@@ -41,7 +41,8 @@ class LoginForm extends Component {
                     // update App.js state
                     this.props.updateUser({
                         loggedIn: true,
-                        username: response.data.username
+                        email: response.data.email,
+                        firstname: response.data.firstname
                     })
                     // update the state to redirect to home
                     this.setState({
