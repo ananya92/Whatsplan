@@ -35,7 +35,7 @@ app.get("*", function(req, res) {
 });
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/whatsplanDb");
-
+mongoose.set('useFindAndModify', false);
 app.listen(PORT, function() {
   console.log(`🌎 ==> API server now on port ${PORT}!`);
 });
