@@ -6,10 +6,10 @@ mongoose.promise = Promise
 // Define userSchema
 const userSchema = new Schema({
 
-  username: { type: String, unique: false, required: true },
-  firstname: { type: String, required: false},
-  lastname: { type: String, required: false},
-  email: { type: String, required: false},
+  username: { type: String, unique: true, required: true },
+  firstname: { type: String, required: true},
+  lastname: { type: String, required: true},
+  email: { type: String, required: true},
   password: { type: String, required: true},
   img: { data: Buffer, contentType: String},
   plans: [Schema.Types.ObjectId]
