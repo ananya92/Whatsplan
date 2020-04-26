@@ -7,23 +7,37 @@ const User = require("../../models/user");
 router.post('/register', (req, res) => {
   console.log('user signup');
 
-  const { username, password } = req.body
-  User.findOne({ username: username }, (err, user) => {
+  const { firstname, lastname, email, username, password } = req.body;
+  User.findOne({ email: email }, (err, user) => {
     if (err) {
-      console.log('User.js post error: ', err)
+      console.log(err);
     } else if (user) {
       res.json({
-        error: `Sorry, already a user with the username: ${username}`
+        error: `This email ID already exists as a registered user. Please login to continue.`
       })
     }
     else {
-      const newUser = new User({
-        username: username,
-        password: password
-      })
-      newUser.save((err, savedUser) => {
-        if (err) return res.json(err)
-        res.json(savedUser)
+      User.findOne({ username: username }, (err, user) => {
+        if (err) {
+          console.log(err);
+        } else if (user) {
+          res.json({
+            error: `This username is already taken! Please try another.`
+          })
+        }
+        else {
+          const newUser = new User({
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            username: username,
+            password: password
+          })
+          newUser.save((err, savedUser) => {
+            if (err) return res.json(err)
+            res.json(savedUser)
+          })
+        }
       })
     }
   })
@@ -41,18 +55,17 @@ router.post(
       if(!user) {
         return res.send(info);
       }
-      
-      var userInfo = {
-        username: user.username
-      };
-      return res.send(userInfo);
+      req.logIn(user, function(err) {
+        if (err) { return next(err); }
+        return res.send(user);
+      });
     })(req, res, next)
   }
 );
 
 router.get('/', (req, res, next) => {
   console.log('===== user!!======')
-  console.log(req.user)
+  console.log(req.user);
   if (req.user) {
     res.json({ user: req.user })
   } else {
@@ -62,7 +75,9 @@ router.get('/', (req, res, next) => {
 
 router.post('/logout', (req, res) => {
   if (req.user) {
-    req.logout()
+    req.logout();
+    console.log("req.user:");
+    console.log(req.user);
     res.send({ msg: 'logging out' })
   } else {
     res.send({ msg: 'no user to log out' })
@@ -78,6 +93,34 @@ router.get('/all', (req, res) => {
       res.json(users);
     }
   })
+});
+
+router.get('/getUserByEmail/:email', (req, res) => {
+  User.findOne({ email: req.params.email }, (err, user) => {
+    if (err) {
+      console.log(err);
+    } 
+    else if(user) {
+      res.json(user);
+    }
+    else {
+      console.log("No user exists with email id");
+    }
+  });
+});
+
+router.put('/addPlanToUser/:email', (req, res) => {
+  User.findOneAndUpdate({ email: req.params.email }, {$push: {plans: req.body.plan_id}}, (err, user) => {
+    if (err) {
+      console.log(err);
+    } 
+    else if(user){
+      res.json(user);
+    }
+    else {
+      console.log("No user exists with email id");
+    }
+  });
 });
 
 module.exports = router;
