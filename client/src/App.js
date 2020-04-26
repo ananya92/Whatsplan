@@ -5,6 +5,7 @@ import Signup from './components/sign-up';
 import LoginForm from './components/login-form';
 import Navbar from './components/navbar';
 import Home from './components/home';
+import Plan from "./components/plan";
 import API from './utils/API';
 import "./App.css";
 
@@ -13,7 +14,8 @@ class App extends Component {
     super()
     this.state = {
       loggedIn: false,
-      username: null
+      email: null,
+      firstname: null
     }
 
     this.getUser = this.getUser.bind(this)
@@ -25,7 +27,7 @@ class App extends Component {
     this.getUser();
   }
 
-  updateUser (userObject) {
+  updateUser(userObject) {
     this.setState(userObject);
   }
 
@@ -38,13 +40,15 @@ class App extends Component {
 
         this.setState({
           loggedIn: true,
-          username: response.data.user.username
+          email: response.data.user.email,
+          firstname: response.data.user.firstname
         })
       } else {
         console.log('Get user: no user');
         this.setState({
           loggedIn: false,
-          username: null
+          email: null,
+          firstname: null
         })
       }
     })
@@ -52,16 +56,20 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        
+
         <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
         {/* greet user if logged in: */}
         {this.state.loggedIn &&
-          <p>Welcome {this.state.username}!</p>
+          <p>Welcome {this.state.firstname}!</p>
         }
         {/* Routes to different components */}
         <Route
           exact path="/"
-          component={Home} />
+          render={() =>
+            <Home
+              loggedIn={this.state.loggedIn} email={this.state.email}
+            />}
+        />
         <Route
           path="/login"
           render={() =>
@@ -72,9 +80,13 @@ class App extends Component {
         <Route
           path="/signup"
           render={() =>
-            <Signup/>}
+            <Signup />}
         />
-
+        <Route
+          path="/plan"
+          render={() =>
+            <Plan />}
+        />
       </div>
     );
   }
