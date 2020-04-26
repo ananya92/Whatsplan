@@ -17,6 +17,7 @@
 .errMsg {
   color: red;
   font-size: 12px;
+  text-align: left;
 }
 
 .text {
@@ -27,4 +28,8 @@
   border-radius: .28571429rem !important;
   padding: 15px 15px !important;
   border-color: rgba(34, 36, 38, 0.15) !important;
+}
+
+.form-label {
+  text-align: left;
 }
