@@ -2,7 +2,7 @@ const router = require("express").Router();
 const controller = require("../../controllers/controller");
 const passport = require("../../config/passport");
 const User = require("../../models/user");
-
+const Plan = require("../../models/plan");
 // Matches with "/api/user"
 router.post('/register', (req, res) => {
   console.log('user signup');
@@ -123,4 +123,25 @@ router.put('/addPlanToUser/:email', (req, res) => {
   });
 });
 
+// get all current plans of user with requested email id
+router.get('/getCurrentPlans/:email', (req, res) => {
+  User.findOne({ email: req.params.email }, (err, user) => {
+    if (err) {
+      console.log(err);
+    } 
+    else if(user) {
+      Plan.find({_id : {$in: user.plans}, status : {$nin: "Complete"}}, (err, plans) => {
+        if (err) {
+          console.log(err);
+        } 
+        else {
+          res.json(plans);
+        }
+      });
+    }
+    else {
+      console.log("No user exists with email id");
+    }
+  });
+})
 module.exports = router;
