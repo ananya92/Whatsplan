@@ -3,9 +3,9 @@
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
+  background-color: purple;
+  height: 60px;
+  padding: 7px;
   color: white;
 }
 
@@ -28,6 +28,10 @@
   border-radius: .28571429rem !important;
   padding: 15px 15px !important;
   border-color: rgba(34, 36, 38, 0.15) !important;
+}
+
+.navbar-section i{
+  font-size: 1.2rem;
 }
 
 .form-label {

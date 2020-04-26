@@ -15,7 +15,8 @@ class App extends Component {
     this.state = {
       loggedIn: false,
       email: null,
-      firstname: null
+      firstname: null,
+      planName: null
     }
 
     this.getUser = this.getUser.bind(this)
@@ -57,7 +58,7 @@ class App extends Component {
     return (
       <div className="App">
 
-        <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
+        <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} planName={this.state.planName}/>
         {/* greet user if logged in: */}
         {this.state.loggedIn &&
           <p>Welcome {this.state.firstname}!</p>
@@ -67,7 +68,7 @@ class App extends Component {
           exact path="/"
           render={() =>
             <Home
-              loggedIn={this.state.loggedIn} email={this.state.email}
+            updateUser={this.updateUser} loggedIn={this.state.loggedIn} email={this.state.email}
             />}
         />
         <Route
@@ -85,7 +86,7 @@ class App extends Component {
         <Route
           path="/plan"
           render={() =>
-            <Plan />}
+            <Plan planName={this.state.planName}/>}
         />
       </div>
     );

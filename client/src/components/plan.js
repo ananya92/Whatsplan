@@ -3,9 +3,22 @@ import { Dropdown, Button } from 'semantic-ui-react';
 import API from "../utils/API";
 import { Redirect } from 'react-router-dom';
 
-function Plan() {
+function Plan(props) {
+    const [planNameState, setPlanNameState] = useState({
+        PlanName: null
+    });
+    useEffect(() => {
+        setPlanNameState({ planName: props.planName });
+    }, [props.planName]);
+    const [redirectState, setRedirectState] = useState({
+        redirectTo: ""
+    })
     return (
-        <h1>Plan page</h1>
+        redirectState.redirectTo !== "" ?
+            <Redirect to={{ pathname: redirectState.redirectTo }} /> :
+            (props.planName ?
+            <h1> Plan page</h1 > :
+            setRedirectState({ redirectTo: "/" }))
     );
 }
 

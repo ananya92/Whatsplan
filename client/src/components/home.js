@@ -19,6 +19,8 @@ function Home(props) {
         redirectTo: ""
     })
     useEffect(() => {
+        // setting the planName state to null when home page is loaded so that the titlte bar shows Whatsplan instead of the plan name
+        props.updateUser({planName: null});
         API.getRegisteredUsers().then(response => {
             console.log("All registered users response:");
             console.log(response);
@@ -42,6 +44,7 @@ function Home(props) {
     useEffect(() => {
         setLoginState({ loggedIn: props.loggedIn });
     }, [props.loggedIn]);
+
     function handleFormSubmit(event) {
         event.preventDefault();
         var planMembers = newPlanState.members;
@@ -54,6 +57,8 @@ function Home(props) {
                 status: "Pending"
             })
                 .then(response => {
+                    // setting the plan name state so that the title in navbar shows the plan name when plan is loaded
+                    props.updateUser({planName: response.data.title});
                     console.log('successfully created new plan: ', response);
                     // Add the created plan to all the collaborator's plan array
                     planMembers.map(member => {
