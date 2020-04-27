@@ -43,7 +43,7 @@ class Navbar extends Component {
                 {isPlanPage === true ? (
                     <header className="navbar App-header" id="nav-container">
                         <section className="navbar-center">
-                            <h1 className="App-title">{this.props.planName}</h1>
+                            <h3 className="App-title">{this.props.planName}</h3>
                         </section>
                         <section className="navbar-section">
                             <Link to="/dashboard" className="btn btn-link text-secondary">
@@ -69,7 +69,7 @@ class Navbar extends Component {
                 ) : (
                         <header className="navbar App-header" id="nav-container">
                             <section className="navbar-center">
-                                <h1 className="App-title">Whatsplan</h1>
+                                <h3 className="App-title">Whatsplan</h3>
                             </section>
                             {loggedIn ? (
                                 <section className="navbar-section">

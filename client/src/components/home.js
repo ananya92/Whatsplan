@@ -142,12 +142,12 @@ function Home(props) {
                             <div class="panel-body">
                                 <form>
                                     {currentPlansState.currentPlans.map(plan => (
-                                        <div style={{ padding: "10px 0" }} className="tile">
+                                        <div className="tile" style={{ padding: "6px 0" }}>
                                             <div className="tile-icon">
                                                 <span style={{ color: "purple" }}><i class="far fa-paper-plane"></i></span>
                                             </div>
                                             <div className="tile-content">
-                                                <button value={plan.title} className="btn btn-link" style={{ textAlign: "left" }} onClick={(e) => handlePlanClick(e, plan)}>{plan.title}</button>
+                                                <button value={plan.title} className="btn btn-link" style={{ fontSize: "1rem" }} onClick={(e) => handlePlanClick(e, plan)}>{plan.title}</button>
                                             </div>
                                         </div>
                                     ))}
@@ -156,7 +156,7 @@ function Home(props) {
                         </div>
                         <div style={{ marginLeft: "10px" }} className="panel col-sm-12 col-md-7 col-lg-7 col-xl-7 col-mr-auto">
                             <div className="panel-header">
-                                <div className="panel-title text-bold" style={{}}><h4>Lets get started!</h4></div>
+                                <div className="panel-title text-bold"><h4>Lets get started!</h4></div>
                             </div>
                             <div class="panel-body">
                                 <form className="form-horizontal" onSubmit={handleFormSubmit}>
@@ -193,10 +193,10 @@ function Home(props) {
                                         </div>
                                     </div>
                                     <div className="form-group">
-                                        <div className="col-sm-5 col-md-3 col-lg-3 col-xl-3 col-ml-auto" />
-                                        <div className="col-sm-7 col-md-5 col-lg-5 col-xl-5 col-mr-auto">
-                                            <div className="col-2 col-mr-auto">
-                                                <Button compact size='tiny' color='blue' type="submit">Submit</Button>
+                                        <div className="col-sm-5 col-md-4 col-lg-4 col-xl-4 col-ml-auto" />
+                                        <div className="col-sm-7 col-md-7 col-lg-7 col-xl-6 col-mr-auto">
+                                            <div style={{ textAlign: "left" }} className="col-2 col-mr-auto">
+                                                <Button compact size='tiny' color='purple' type="submit">Submit</Button>
                                             </div>
                                         </div>
                                     </div>

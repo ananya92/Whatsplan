@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import API from "../utils/API";
-
+import { Button } from 'semantic-ui-react';
 class LoginForm extends Component {
     constructor() {
         super()
@@ -62,45 +62,46 @@ class LoginForm extends Component {
             return (
                 <div>
                     <h4>Login</h4>
-                    <form className="form-horizontal">
-                        <div className="form-group">
-                            <div className="col-1 col-ml-auto">
-                                <label className="form-label" htmlFor="username">Username</label>
-                            </div>
-                            <div className="col-3 col-mr-auto">
-                                <input className="form-input"
-                                    type="text"
-                                    id="username"
-                                    name="username"
-                                    placeholder="Username"
-                                    value={this.state.username}
-                                    onChange={this.handleChange}
-                                />
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <div className="col-1 col-ml-auto">
-                                <label className="form-label" htmlFor="password">Password: </label>
-                            </div>
-                            <div className="col-3 col-mr-auto">
-                                <input className="form-input"
-                                    placeholder="password"
-                                    type="password"
-                                    name="password"
-                                    value={this.state.password}
-                                    onChange={this.handleChange}
-                                />
-                            </div>
-                        </div>
+                    <form className="form-horizontal" onSubmit={this.handleSubmit}>
+						<div className="form-group">
+							<div className="col-sm-5 col-md-3 col-lg-2 col-xl-2 col-ml-auto">
+								<label className="form-label" htmlFor="username">Username</label>
+							</div>
+							<div className="col-sm-7 col-md-5 col-lg-3 col-xl-3 col-mr-auto">
+								<input className="form-input"
+									type="text"
+									id="username"
+									name="username"
+									placeholder="johndoe"
+									value={this.state.username}
+									onChange={this.handleChange}
+								/>
+							</div>
+						</div>
+						<div className="form-group">
+							<div className="col-sm-5 col-md-3 col-lg-2 col-xl-2 col-ml-auto">
+								<label className="form-label" htmlFor="lastname">Password</label>
+							</div>
+							<div className="col-sm-7 col-md-5 col-lg-3 col-xl-3 col-mr-auto">
+								<input className="form-input"
+									type="password"
+									id="password"
+									name="password"
+									placeholder="******"
+									value={this.state.password}
+									onChange={this.handleChange}
+								/>
+							</div>
+						</div>
                         <p className="errMsg">{this.state.errMsg}</p>
                         <div className="form-group ">
-                            <div className="col-7"></div>
-                            <button
-                                className="btn btn-primary col-1 col-mr-auto"
-                               
-                                onClick={this.handleSubmit}
-                                type="submit">Login</button>
-                        </div>
+							<div className="col-sm-5 col-md-3 col-lg-2 col-xl-2 col-ml-auto"></div>
+							<div className="col-sm-7 col-md-5 col-lg-3 col-xl-3 col-mr-auto">
+								<div style={{ textAlign: "left" }} className="col-3 col-mr-auto">
+									<Button compact size='tiny' color='purple' type="submit">Login</Button>
+								</div>
+							</div>
+						</div>
                     </form>
                 </div>
             )

@@ -159,8 +159,8 @@ class Signup extends Component {
 						<div className="form-group ">
 							<div className="col-sm-5 col-md-3 col-lg-2 col-xl-2 col-ml-auto"></div>
 							<div className="col-sm-7 col-md-5 col-lg-3 col-xl-3 col-mr-auto">
-								<div className="col-3 col-mr-auto">
-									<Button compact size='tiny' color='blue' type="submit">Submit</Button>
+								<div style={{ textAlign: "left" }} className="col-3 col-mr-auto">
+									<Button compact size='tiny' color='purple' type="submit">Submit</Button>
 								</div>
 							</div>
 						</div>

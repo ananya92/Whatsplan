@@ -6,9 +6,11 @@
   "dependencies": {
     "axios": "^0.17.1",
     "react": "^16.6.3",
+    "react-datepicker": "^2.14.1",
     "react-dom": "^16.6.3",
     "react-router-dom": "^4.2.2",
     "react-scripts": "^2.1.1",
+    "semantic-ui-calendar-react": "^0.15.3",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
     "spectre.css": "^0.5.8"
