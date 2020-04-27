@@ -33,7 +33,7 @@ export default {
     addPlanToUser: function(email, plan_id) {
         return axios.put(`/api/user/addPlanToUser/${email}`, {plan_id: plan_id});
     },
-    getCurrentPlans: function(email) {
-        return axios.get(`/api/user/getCurrentPlans/${email}`);
+    getCurrentPlans: function() {
+        return axios.get(`/api/user/getCurrentPlans`);
     }
 };

@@ -124,8 +124,8 @@ router.put('/addPlanToUser/:email', (req, res) => {
 });
 
 // get all current plans of user with requested email id
-router.get('/getCurrentPlans/:email', (req, res) => {
-  User.findOne({ email: req.params.email }, (err, user) => {
+router.get('/getCurrentPlans', (req, res) => {
+  User.findOne({ email: req.user.email }, (err, user) => {
     if (err) {
       console.log(err);
     } 
