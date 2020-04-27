@@ -23,19 +23,31 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Express Session - We need to use sessions to keep track of our user's login status
-app.use(session({ secret: "keyboard user", resave: true, saveUninitialized: true }));
+app.use(session({
+  secret: "keyboard user",
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000
+  }
+  // ,
+  // store: new MongoStore({
+  //   mongooseConnection: mongoose.connection,
+  //   ttl: 24 * 60 * 60 // Keeps session open for 1 day
+  // })
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(routes);
 // Send every request to the React app
 // Define any API routes before this runs
-app.get("*", function(req, res) {
+app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/whatsplanDb");
 mongoose.set('useFindAndModify', false);
-app.listen(PORT, function() {
+app.listen(PORT, function () {
   console.log(`🌎 ==> API server now on port ${PORT}!`);
 });
