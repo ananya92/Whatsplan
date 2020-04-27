@@ -8,6 +8,7 @@ import Home from './components/home';
 import Plan from "./components/plan";
 import API from './utils/API';
 import "./App.css";
+import { PlanContextProvider } from "./utils/GlobalState";
 
 class App extends Component {
   constructor() {
@@ -16,7 +17,8 @@ class App extends Component {
       loggedIn: false,
       email: null,
       firstname: null,
-      planName: null
+      planName: null,
+      planId: null
     }
 
     this.getUser = this.getUser.bind(this)
@@ -57,7 +59,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-
+        <PlanContextProvider>
         <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} planName={this.state.planName}/>
         {/* greet user if logged in: */}
         {this.state.loggedIn &&
@@ -88,6 +90,7 @@ class App extends Component {
           render={() =>
             <Plan planName={this.state.planName}/>}
         />
+        </PlanContextProvider>
       </div>
     );
   }
