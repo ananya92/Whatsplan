@@ -26,6 +26,10 @@ export default {
     getUserByEmail: function(email) {
         return axios.get(`/api/user/getUserByEmail/${email}`);
     },
+    // get user by id
+    getUserById: function(id) {
+        return axios.get(`/api/user/${id}`);
+    },
     // post new plan
     newPlan: function(postData) {
         return axios.post("/api/wp/plan", postData);
@@ -53,5 +57,19 @@ export default {
     // get milestone by id
     getMilestone: function(id) {
         return axios.get(`/api/wp/milestone/${id}`);
+    },
+    // get task by id
+    getTask: function(id) {
+        return axios.get(`/api/wp/task/${id}`);
+    },
+    addNewTask: function(postData) {
+        return axios.post("/api/wp/task", postData);
+    },
+    addTaskToMilestone: function(milestone_id, task_id) {
+        return axios.put("/api/wp/addTaskToMilestone", 
+        {
+            milestone_id: milestone_id,
+            task_id: task_id
+        })
     }
 };

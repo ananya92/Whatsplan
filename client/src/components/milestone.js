@@ -3,6 +3,7 @@ import API from "../utils/API";
 import Task from "./task";
 import { Dropdown, Button } from 'semantic-ui-react';
 import { usePlanContext } from "../utils/GlobalState";
+import { Table } from 'semantic-ui-react';
 
 function Milestone(props) {
     const taskRef = useRef();
@@ -13,6 +14,9 @@ function Milestone(props) {
     });
     const [assignOptionsState, setAssignOptionsState] = useState({
         members: []
+    });
+    const [assignedState, setAssignedState] = useState({
+        asignee: ""
     });
     useEffect(() => {
         API.getMilestone(props.milestoneId).then(response => {
@@ -27,7 +31,7 @@ function Milestone(props) {
                 var option = {
                     key: index,
                     text: `${response.data.firstname} ${response.data.lastname}`,
-                    value: `${response.data.email}`,
+                    value: `${response.data._id}`,
                     image: { avatar: true, src: '/images/avatar.PNG' }
                 }
                 // adding the option to the members in assignOptionsState
@@ -39,15 +43,47 @@ function Milestone(props) {
             });
         });
     }, []);
+
     function handleSubmit(event) {
         event.preventDefault();
-        console.log(assignOptionsState.members);
+        API.addNewTask({
+            taskName: taskRef.current.value,
+            description: descRef.current.value,
+            status: "Pending",
+            asignee: assignedState.asignee
+        })
+            .then(response => {
+                taskRef.current.value = "";
+                descRef.current.value = "";
+                console.log('successfully created new task: ', response);
+                // Add the created task to the plan
+                API.addTaskToMilestone(milestoneState.milestone._id, response.data._id)
+                    .then(response1 => {
+                        console.log("Added task to milestone");
+                        // Getting the updated milestone from database
+                        API.getMilestone(response1.data._id)
+                            .then(res => {
+                                // Saving the updated milestone in the state
+                                console.log(res);
+                                setMilestoneState({ milestone: res.data });
+                            }).catch(error => {
+                                console.log("Error while getting milestone: ", error);
+                            });
+                    }).catch(error => {
+                        console.log("Error while adding task to milestone: ", error);
+                    });
+            }).catch(error => {
+                console.log('task creation error: ', error);
+            });
+
     }
+    // function to set the task's asignee state
     function handleAssign(event, data) {
         event.preventDefault();
-        console.log("Selected:");
-        console.log(data.value);
+        console.log("Selected:", data.value);
+        setAssignedState({ asignee: data.value });
     }
+
     return (
         <div>
             {milestoneState.milestone ?
@@ -123,9 +159,33 @@ function Milestone(props) {
                                 </form>
                             </div>
                         </details>
-                        {milestoneState.milestone.tasks.map(taskId => (
-                            <Task taskId={taskId}></Task>
-                        ))}
+                        <Table compact singleLine columns={4} unstackable color='purple' key='purple'>
+                        <Table.Header>
+                                <Table.Row>
+                                    <Table.HeaderCell 
+                                        >
+                                        Task Name
+                                    </Table.HeaderCell>
+                                    <Table.HeaderCell 
+                                        >
+                                        Asignee
+                                    </Table.HeaderCell>
+                                    <Table.HeaderCell 
+                                        >
+                                        Status
+                                    </Table.HeaderCell>
+                                    <Table.HeaderCell 
+                                        >
+                                        Timeline
+                                    </Table.HeaderCell>
+                                </Table.Row>
+                            </Table.Header>
+                            </Table>
+                                {milestoneState.milestone.tasks.map(taskId => (                              
+                                        <Task taskId={taskId}></Task>
+                                ))}
+
+                        
                     </div>
                 </details> : <br />}
         </div>

@@ -144,4 +144,21 @@ router.get('/getCurrentPlans', (req, res) => {
     }
   });
 })
+
+
+//Get task by ID
+router.get('/:id', (req, res) => {
+  User.findOne({ _id: req.params.id }, (err, user) => {
+      if (err) {
+          console.log(err);
+      }
+      else if (user) {
+          res.json(user);
+      }
+      else {
+          console.log("No user exists with id ", req.params.id);
+      }
+  });
+});
+
 module.exports = router;
