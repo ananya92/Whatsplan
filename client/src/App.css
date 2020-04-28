@@ -78,3 +78,12 @@ summary, .accordian-body {
 .assignDropdown {
   padding-left : 0.4rem !important;
 }
+
+.container_table {
+  width: 100%;
+  overflow-x: scroll;  /* or auto */
+}
+
+.ui.table {
+  margin-bottom: 0px !important;
+}
