@@ -3,10 +3,9 @@ const Schema = mongoose.Schema;
 
 // Define userSchema
 const milestoneSchema = new Schema({
-
   milestoneName: { type: String, required: true },
   deadline: { type: String},
-  status: { type: String},
+  status: { type: String, required: true},
   tasks: [Schema.Types.ObjectId]
 });
 

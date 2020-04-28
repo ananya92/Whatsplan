@@ -2,12 +2,13 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const taskSchema = new Schema({
-  taskname: { type: String, required: true},
+  taskName: { type: String, required: true},
   description: String,
-  emailId: { type: String, required: true},
-  password: { type: String, required: true},
-  img: { data: Buffer, contentType: String},
-  plans: [Schema.Types.ObjectId]
+  asignee: {type: Schema.Types.ObjectId, required: true},
+  status: { type: String, required: true},
+  startDate: { type: String},
+  endDate: { type: String},
+  comments: [Schema.Types.ObjectId]
 });
 
 const Task = mongoose.model("Task", taskSchema);
