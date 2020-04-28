@@ -35,5 +35,23 @@ export default {
     },
     getCurrentPlans: function() {
         return axios.get(`/api/user/getCurrentPlans`);
+    },
+    addNewMilestone: function(postData) {
+        return axios.post("/api/wp/milestone", postData);
+    },
+    addMilestoneToPlan: function(plan_id, milestone_id) {
+        return axios.put("/api/wp/addMilestoneToPlan", 
+        {
+            plan_id: plan_id,
+            milestone_id: milestone_id
+        })
+    },
+    // get plan by id
+    getPlan: function(id) {
+        return axios.get(`/api/wp/plan/${id}`);
+    },
+    // get milestone by id
+    getMilestone: function(id) {
+        return axios.get(`/api/wp/milestone/${id}`);
     }
 };

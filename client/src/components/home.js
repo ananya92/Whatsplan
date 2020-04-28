@@ -187,7 +187,7 @@ function Home(props) {
                                                 search
                                                 selection
                                                 options={usersState.registeredUsers}
-                                                fullTextSearch='true'
+                                                fullTextSearch
                                                 onChange={handleChange}
                                             />
                                         </div>

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Dropdown, Button } from 'semantic-ui-react';
+import React, { useState, useRef } from 'react';
+import { Button } from 'semantic-ui-react';
 import API from "../utils/API";
 import { Redirect } from 'react-router-dom';
 import { usePlanContext } from "../utils/GlobalState";
@@ -14,6 +14,33 @@ function Plan() {
     });
     function handleSubmit(event) {
         event.preventDefault();
+        API.addNewMilestone({
+            milestoneName: milestoneRef.current.value,
+            deadline: startDate,
+            status: "Pending"
+        })
+        .then(response => {
+            milestoneRef.current.value = "";
+            console.log('successfully created new milestone: ', response);
+            // Add the created milestone to the plan
+            API.addMilestoneToPlan(state.currentPlan._id, response.data._id)
+                .then(response1 => {
+                    console.log("Added milestone to plan:");
+                    // Getting the updated plan from database
+                    API.getPlan(response1.data._id)
+                    .then(res => {
+                        // Saving the new created milestone in the current plan in Global store
+                        console.log(res);
+                        dispatch({ type: "initPlan", data: res.data });
+                    }).catch(error => {
+                        console.log("Error while getting plan: ", error);
+                    });
+                }).catch(error => {
+                    console.log("Error while adding milestone to plan: ", error);
+                });
+        }).catch(error => {
+            console.log('milestone creation error: ', error);
+        });
     }
     const [startDate, setStartDate] = useState(new (Date));
     return (
