@@ -6,7 +6,8 @@ import { usePlanContext } from "../utils/GlobalState";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import Milestone from "./milestone";
-function Plan() {
+import { PromiseProvider } from 'mongoose';
+function Plan(props) {
     const [state, dispatch] = usePlanContext();
     const milestoneRef = useRef();
     const [redirectState, setRedirectState] = useState({
@@ -46,7 +47,7 @@ function Plan() {
     return (
         redirectState.redirectTo !== "" ?
             <Redirect to={{ pathname: redirectState.redirectTo }} /> :
-            state.currentPlan.title ?
+            props.planName ?
                 <div>
                     <details className="accordion panel col-sm-12 col-md-10 col-lg-8 col-xl-8 col-mx-auto">
                         <summary style={{ textAlign: "left" }} className="accordion-header">
