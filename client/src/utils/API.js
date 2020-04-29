@@ -77,5 +77,8 @@ export default {
     },
     updateTask: function(id, postData) {
         return axios.put(`/api/wp/task/${id}`, postData);
+    },
+    newComment: function(postData) {
+        return axios.post("/api/wp/comment", postData);
     }
 };

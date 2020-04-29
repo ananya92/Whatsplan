@@ -146,7 +146,7 @@ router.get('/getCurrentPlans', (req, res) => {
 })
 
 
-//Get task by ID
+//Get user by ID
 router.get('/:id', (req, res) => {
   User.findOne({ _id: req.params.id }, (err, user) => {
       if (err) {

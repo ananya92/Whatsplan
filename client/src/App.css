@@ -125,3 +125,7 @@ summary, .accordian-body {
 .noMarginCell .progress {
   margin-bottom: 0px !important;
 }
+
+.commentStyle {
+  padding: 15px;
+}

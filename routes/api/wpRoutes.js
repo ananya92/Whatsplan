@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const Plan = require("../../models/plan");
 const Milestone = require("../../models/milestone");
 const Task = require("../../models/task");
+const Comment = require("../../models/comment");
 // Matches with "/api/wp"
 //Add new plan
 router.post('/plan', (req, res) => {
@@ -160,6 +161,19 @@ router.put('/task/:id', (req, res) => {
     else {
         console.log("Invalid id:", req.params.id);
     }
+});
+
+// Add new comment
+router.post('/comment', (req, res) => {
+    const newComment = {
+        comment: req.body.comment,
+        task: req.body.task,
+        commentedBy: req.body.commentedBy,
+    }
+    Comment.create(newComment, function (err, savedComment) {
+        if (err) return res.json(err);
+        res.json(savedComment);
+    });
 });
 module.exports = router;
 
