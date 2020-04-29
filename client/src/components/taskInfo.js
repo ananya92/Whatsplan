@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { usePlanContext } from "../utils/GlobalState";
 import { Redirect } from 'react-router-dom';
 import { Dropdown, Button } from 'semantic-ui-react';
@@ -9,7 +9,7 @@ import moment from 'moment';
 
 function TaskInfo() {
     const [state, _] = usePlanContext();
-
+    const commentRef = useRef();
     const [taskState, setTaskState] = useState({
         taskVal: state.currentTask.taskName,
         descVal: state.currentTask.description,
@@ -23,17 +23,18 @@ function TaskInfo() {
     const [assignOptionsState, setAssignOptionsState] = useState({
         members: []
     });
-    const [startDate, setStartDate] = useState(state.currentTask.startDate ? 
-        new Date(state.currentTask.startDate): null);
-    const [endDate, setEndDate] = useState(state.currentTask.endDate ? 
-        new Date(state.currentTask.endDate): null);
+    const [startDate, setStartDate] = useState(state.currentTask.startDate ?
+        new Date(state.currentTask.startDate) : null);
+    const [endDate, setEndDate] = useState(state.currentTask.endDate ?
+        new Date(state.currentTask.endDate) : null);
 
     //Get the deafult asignee and asignee dropdown options on component load
     useEffect(() => {
         API.getUserById(state.currentTask.asignee).then(response => {
-            setAssignedState({ 
+            setAssignedState({
                 asignee: response.data._id,
-                name: response.data.firstname + " " + response.data.lastname });
+                name: response.data.firstname + " " + response.data.lastname
+            });
         }).catch(error => {
             console.log("Error while getting user by id: ", error);
         });
@@ -57,36 +58,52 @@ function TaskInfo() {
 
     function handleStatusChange(event, data) {
         event.preventDefault();
-        console.log("Selected:", data);
+        console.log("Selected:", data.value);
         setTaskState({ ...taskState, statusVal: data.value });
     }
 
     // function to set the task's asignee state
     function handleAssign(event, data) {
         event.preventDefault();
-        console.log("Selected:", data, event);
-        setAssignedState({...assignedState, asignee: data.value });
+        console.log("Selected:", data.value);
+        setAssignedState({ ...assignedState, asignee: data.value });
     }
+
+    // function to post new comment
+    function handleComment(event) {
+        event.preventDefault();
+        API.newComment({ 
+            comment: commentRef.current.value,
+            task: state.currentTask._id,
+            commentedBy: state.currentUser._id
+        }).then(function(response) {
+            console.log("Posted new comment:", response);
+            // Add the new comment id to the task in database and save the task back to the global store
+        }).catch(error => {
+            console.log("Error while posting new comment: ", error);
+        });
+    }
+
     // On submit, the task should be updated with updated values. Also the milestone state and plan state might change due to change in task status so it should be tested. 
     // The task, milestone and plan have to be updated in the database as well as the global store
     function handleSubmit(event) {
         event.preventDefault();
         API.updateTask(state.currentTask._id,
-        {
-            taskName: taskState.taskVal,
-            description: taskState.descVal,
-            status: taskState.statusVal,
-            asignee: assignedState.asignee,
-            startDate: startDate,
-            endDate: endDate
-        })
-        .then(response => {
-            console.log("Successfully updated task:", response);
-            setTaskState({...taskState, infoMsg: "Successfully updated"});
-        })
-        .catch(error => {
-            console.log('task update error: ', error);
-        });
+            {
+                taskName: taskState.taskVal,
+                description: taskState.descVal,
+                status: taskState.statusVal,
+                asignee: assignedState.asignee,
+                startDate: startDate,
+                endDate: endDate
+            })
+            .then(response => {
+                console.log("Successfully updated task:", response);
+                setTaskState({ ...taskState, infoMsg: "Successfully updated" });
+            })
+            .catch(error => {
+                console.log('task update error: ', error);
+            });
     }
 
     return (
@@ -224,10 +241,24 @@ function TaskInfo() {
                                 <div className="col-6 col-xs-8 col-sm-8 col-md-8 col-mr-auto">
                                     <div style={{ textAlign: "left" }} className="col-4 col-mr-auto">
                                         <Button compact size='tiny' color='purple' type="submit">Submit</Button>
-                                        <p style={{fontSize: "small", color: "green", paddingTop: "15px"}}>{taskState.infoMsg}</p>
+                                        <p style={{ fontSize: "small", color: "green", paddingTop: "15px" }}>{taskState.infoMsg}</p>
                                     </div>
                                 </div>
                             </div> : <br />}
+                    </form>
+                    <form onSubmit={handleComment}>
+                        <div className="commentStyle col-9 col-xs-12 col-sm-12 col-md-11 col-mx-auto">
+                            <textarea className="form-input"
+                                placeholder="Post a comment"
+                                type="text"
+                                id="comment"
+                                name="comment"
+                                rows={3}
+                                ref={commentRef} />
+                            <div style={{textAlign: "right", marginTop: "0.4rem"}} className="col-4 col-ml-auto">
+                                <Button compact size='tiny' color='purple' type="submit">Post Comment</Button>
+                            </div>
+                        </div>
                     </form>
                 </div>) :
                 <Redirect to={{ pathname: "/" }} />
