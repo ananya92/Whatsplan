@@ -101,7 +101,7 @@ function Home(props) {
     }
     return(
         state.currentUser ?
-            <div className="columns" style={{ marginBottom: "30px" }}>
+            <div className="columns" style={{ marginBottom: "30px", overflow: "visible" }}>
                 <br />
                 <div style={{ marginRight: "10px" }} className="panel col-4 col-xs-12 col-sm-12 col-ml-auto">
                     <div className="panel-header">
@@ -122,12 +122,12 @@ function Home(props) {
                         </form>
                     </div>
                 </div>
-                <div style={{ marginLeft: "10px" }} className="panel col-7 col-xs-12 col-sm-12 col-mr-auto">
+                <div style={{ marginLeft: "10px", overflow: "visible" }} className="panel col-7 col-xs-12 col-sm-12 col-mr-auto">
                     <div className="panel-header">
                         <div className="panel-title text-bold"><h4>Lets get started!</h4></div>
                     </div>
-                    <div class="panel-body">
-                        <form className="form-horizontal" onSubmit={handleFormSubmit}>
+                    <div class="panel-body" style={{ overflow: "visible" }}>
+                        <form className="form-horizontal" onSubmit={handleFormSubmit} style={{ overflow: "visible" }}>
                             <div className="form-group">
                                 <div className="col-4 col-xs-5 col-sm-5 col-ml-auto">
                                     <label className="form-label" htmlFor="newPlanName">Plan Name</label>
@@ -142,11 +142,11 @@ function Home(props) {
                                     />
                                 </div>
                             </div>
-                            <div className="form-group">
+                            <div className="form-group" style={{ overflow: "visible" }}>
                                 <div className="col-4 col-xs-5 col-sm-5 col-ml-auto">
                                     <label className="form-label" htmlFor="newPlanName">Add collaborators</label>
                                 </div>
-                                <div className="col-7 col-xl-6 col-mr-auto">
+                                <div className="col-7 col-xl-6 col-mr-auto" style={{ overflow: "visible" }}>
                                     <Dropdown
                                         clearable
                                         placeholder='Search..'
