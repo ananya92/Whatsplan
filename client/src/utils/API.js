@@ -74,5 +74,8 @@ export default {
     },
     getMilestoneByTaskId: function(taskId) {
         return axios.get(`/api/wp/milestone/task/${taskId}`)
+    },
+    updateTask: function(id, postData) {
+        return axios.put(`/api/wp/task/${id}`, postData);
     }
 };

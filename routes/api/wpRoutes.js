@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const mongoose = require("mongoose");
 const Plan = require("../../models/plan");
 const Milestone = require("../../models/milestone");
 const Task = require("../../models/task");
@@ -134,6 +135,31 @@ router.get('/task/:id', (req, res) => {
         }
     });
 });
-
+// Update task by ID
+router.put('/task/:id', (req, res) => {
+    console.log("reached in put", req.params.id, req.body);
+    if(mongoose.Types.ObjectId.isValid(req.params.id)) {
+        Task.findOneAndUpdate({_id: req.params.id}, 
+            {taskName: req.body.taskName,
+            description: req.body.description,
+            status: req.body.status,
+            asignee: req.body.asignee,
+            startDate: req.body.startDate,
+            endDate: req.body.endDate}, {new: true}, (err, task) => {
+                if (err) {
+                    console.log(err);
+                }
+                else if (task) {
+                    res.json(task);
+                }
+                else {
+                    console.log("No task exists with id ", req.params.id);
+                }
+        });
+    }
+    else {
+        console.log("Invalid id:", req.params.id);
+    }
+});
 module.exports = router;
 
