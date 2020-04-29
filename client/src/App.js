@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, Router } from 'react-router-dom';
+import history from "./utils/history";
 // components
 import Signup from './components/sign-up';
 import LoginForm from './components/login-form';
 import Navbar from './components/navbar';
 import Home from './components/home';
 import Plan from "./components/plan";
+import TaskInfo from "./components/taskInfo";
 import API from './utils/API';
 import "./App.css";
 import { PlanContextProvider } from "./utils/GlobalState";
@@ -58,6 +60,7 @@ class App extends Component {
   }
   render() {
     return (
+      <Router history={history}>
       <div className="App">
         <PlanContextProvider>
         <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} planName={this.state.planName}/>
@@ -90,8 +93,14 @@ class App extends Component {
           render={() =>
             <Plan planName={this.state.planName}/>}
         />
+        <Route
+          path="/taskInfo"
+          render={() =>
+            <TaskInfo/>}
+        />
         </PlanContextProvider>
       </div>
+      </Router>
     );
   }
 }
