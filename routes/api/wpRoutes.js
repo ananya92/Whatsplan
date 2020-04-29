@@ -175,5 +175,20 @@ router.post('/comment', (req, res) => {
         res.json(savedComment);
     });
 });
+
+// Add the comment ID to the task
+router.put('/addCommentToTask', (req, res) => {
+    Task.findOneAndUpdate({ _id: req.body.task_id }, { $push: { comments: req.body.comment_id } }, {new: true}, (err, task) => {
+        if (err) {
+            console.log(err);
+        }
+        else if (task) {
+            res.json(task);
+        }
+        else {
+            console.log("No task exists with id ", req.body.task_id);
+        }
+    });
+});
 module.exports = router;
 

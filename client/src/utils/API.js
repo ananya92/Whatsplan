@@ -80,5 +80,12 @@ export default {
     },
     newComment: function(postData) {
         return axios.post("/api/wp/comment", postData);
+    },
+    addCommentToTask: function(comment_id, task_id) {
+        return axios.put("/api/wp/addCommentToTask", 
+        {
+            task_id: task_id,
+            comment_id: comment_id
+        })
     }
 };
