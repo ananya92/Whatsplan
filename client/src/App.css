@@ -129,3 +129,7 @@ summary, .accordian-body {
 .commentStyle {
   padding: 15px;
 }
+
+.tile-title {
+  margin-bottom: 7px !important;
+}
