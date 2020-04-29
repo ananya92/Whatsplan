@@ -9,7 +9,7 @@ function TaskInfo() {
     return (
 
         <div>
-            {state.currentTask.taskName ? (
+            {state.currentTask ? (
                 <div>
                     <h2>TaskInfo page</h2>
                     <p>{state.currentTask.taskName}</p>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from 'semantic-ui-react';
 import API from "../utils/API";
 import { Redirect } from 'react-router-dom';
@@ -10,6 +10,11 @@ import Milestone from "./milestone";
 function Plan() {
     const [state, dispatch] = usePlanContext();
     const milestoneRef = useRef();
+    // on loading plan page, I am no longer looking at a particular task or milestone hence setting the initTask to null
+    useEffect(() => {
+        dispatch({ type: "initTask", data: null });
+        dispatch({ type: "initMilestone", data:  null});
+    }, [])
     function handleSubmit(event) {
         event.preventDefault();
         API.addNewMilestone({
@@ -42,9 +47,9 @@ function Plan() {
     }
     const [startDate, setStartDate] = useState(new (Date));
     return (
-        state.currentPlan.title ?
+        state.currentPlan ?
             <div>
-                <details className="accordion panel col-sm-12 col-md-10 col-lg-8 col-xl-8 col-mx-auto">
+                <details className="accordion panel col-8 col-xs-12 col-sm-12 col-md-10 col-mx-auto">
                     <summary style={{ textAlign: "left" }} className="accordion-header">
                         <i className="icon icon-arrow-right mr-1"></i>
                          Add new milestone
@@ -52,10 +57,10 @@ function Plan() {
                     <div className="accordion-body">
                         <form className="form-horizontal" onSubmit={handleSubmit}>
                             <div className="form-group">
-                                <div className="col-sm-5 col-md-3 col-lg-3 col-xl-3 col-ml-auto">
+                                <div className="col-3 col-xs-5 col-sm-5 col-ml-auto">
                                     <label className="form-label" htmlFor="milestonename">Milestone name</label>
                                 </div>
-                                <div className="col-sm-7 col-md-7 col-lg-5 col-xl-5 col-mr-auto">
+                                <div className="col-5 col-xs-7 col-sm-7 col-md-7 col-mr-auto">
                                     <input className="form-input"
                                         type="text"
                                         id="milestonename"
@@ -66,10 +71,10 @@ function Plan() {
                                 </div>
                             </div>
                             <div className="form-group">
-                                <div className="col-sm-5 col-md-3 col-lg-3 col-xl-3 col-ml-auto">
+                                <div className="col-3 col-xs-5 col-sm-5 col-ml-auto">
                                     <label className="form-label" htmlFor="deadline">Add deadline</label>
                                 </div>
-                                <div className="calendar col-sm-7 col-md-7 col-lg-5 col-xl-5 col-mr-auto">
+                                <div className="calendar col-5 col-xs-7 col-sm-7 col-md-7 col-mr-auto">
                                     <DatePicker
                                         selected={startDate}
                                         onChange={date => setStartDate(date)}
@@ -81,8 +86,8 @@ function Plan() {
                                 </div>
                             </div>
                             <div className="form-group ">
-                                <div className="col-sm-5 col-md-3 col-lg-3 col-xl-3 col-ml-auto"></div>
-                                <div className="col-sm-7 col-md-7 col-lg-5 col-xl-5 col-mr-auto">
+                                <div className="col-3 col-xs-5 col-sm-5 col-ml-auto"></div>
+                                <div className="col-5 col-xs-7 col-sm-7 col-md-7 col-mr-auto">
                                     <div style={{ textAlign: "left" }} className="col-4 col-mr-auto">
                                         <Button compact size='tiny' color='purple' type="submit">Submit</Button>
                                     </div>

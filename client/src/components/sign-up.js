@@ -68,10 +68,10 @@ class Signup extends Component {
 					<h4>Sign up</h4>
 					<form className="form-horizontal" onSubmit={this.handleSubmit}>
 						<div className="form-group">
-							<div className="col-sm-5 col-md-3 col-lg-2 col-xl-2 col-ml-auto">
+							<div className="col-2 col-xs-5  col-sm-5 col-md-3 col-ml-auto">
 								<label className="form-label" htmlFor="firstname">First Name</label>
 							</div>
-							<div className="col-sm-7 col-md-5 col-lg-3 col-xl-3 col-mr-auto">
+							<div className="col-3 col-xs-7 col-sm-7 col-md-5 col-mr-auto">
 								<input className="form-input"
 									type="text"
 									id="firstname"
@@ -83,10 +83,10 @@ class Signup extends Component {
 							</div>
 						</div>
 						<div className="form-group">
-							<div className="col-sm-5 col-md-3 col-lg-2 col-xl-2 col-ml-auto">
+							<div className="col-2 col-xs-5 col-sm-5 col-md-3 col-ml-auto">
 								<label className="form-label" htmlFor="lastname">Last Name</label>
 							</div>
-							<div className="col-sm-7 col-md-5 col-lg-3 col-xl-3 col-mr-auto">
+							<div className="col-3 col-xs-7 col-sm-7 col-md-5 col-mr-auto">
 								<input className="form-input"
 									type="text"
 									id="lastname"
@@ -98,10 +98,10 @@ class Signup extends Component {
 							</div>
 						</div>
 						<div className="form-group">
-							<div className="col-sm-5 col-md-3 col-lg-2 col-xl-2 col-ml-auto">
+							<div className="col-2 col-xs-5 col-sm-5 col-md-3 col-ml-auto">
 								<label className="form-label" htmlFor="email">Email</label>
 							</div>
-							<div className="col-sm-7 col-md-5 col-lg-3 col-xl-3 col-mr-auto">
+							<div className="col-3 col-xs-7 col-sm-7 col-md-5 col-mr-auto">
 								<input className="form-input"
 									type="text"
 									id="email"
@@ -113,10 +113,10 @@ class Signup extends Component {
 							</div>
 						</div>
 						<div className="form-group">
-							<div className="col-sm-5 col-md-3 col-lg-2 col-xl-2 col-ml-auto">
+							<div className="col-2 col-xs-5 col-sm-5 col-md-3 col-ml-auto">
 								<label className="form-label" htmlFor="username">Username</label>
 							</div>
-							<div className="col-sm-7 col-md-5 col-lg-3 col-xl-3 col-mr-auto">
+							<div className="col-3 col-xs-7 col-sm-7 col-md-5 col-mr-auto">
 								<input className="form-input"
 									type="text"
 									id="username"
@@ -128,10 +128,10 @@ class Signup extends Component {
 							</div>
 						</div>
 						<div className="form-group">
-							<div className="col-sm-5 col-md-3 col-lg-2 col-xl-2 col-ml-auto">
+							<div className="col-2 col-xs-5 col-sm-5 col-md-3 col-ml-auto">
 								<label className="form-label" htmlFor="password">Password</label>
 							</div>
-							<div className="col-sm-7 col-md-5 col-lg-3 col-xl-3 col-mr-auto">
+							<div className="col-3 col-xs-7 col-sm-7 col-md-5 col-mr-auto">
 								<input className="form-input"
 									placeholder="******"
 									type="password"
@@ -142,10 +142,10 @@ class Signup extends Component {
 							</div>
 						</div>
 						<div className="form-group">
-							<div className="col-sm-5 col-md-3 col-lg-2 col-xl-2 col-ml-auto">
+							<div className="col-2 col-xs-5 col-sm-5 col-md-3 col-ml-auto">
 								<label className="form-label" htmlFor="confirmPassword">Confirm password</label>
 							</div>
-							<div className="col-sm-7 col-md-5 col-lg-3 col-xl-3 col-mr-auto">
+							<div className="col-3 col-xs-7 col-sm-7 col-md-5 col-mr-auto">
 								<input className="form-input"
 									placeholder="******"
 									type="password"
@@ -157,8 +157,8 @@ class Signup extends Component {
 							</div>
 						</div>
 						<div className="form-group ">
-							<div className="col-sm-5 col-md-3 col-lg-2 col-xl-2 col-ml-auto"></div>
-							<div className="col-sm-7 col-md-5 col-lg-3 col-xl-3 col-mr-auto">
+							<div className="col-2 col-xs-5 col-sm-5 col-md-3 col-ml-auto"></div>
+							<div className="col-3 col-xs-7 col-sm-7 col-md-5 col-mr-auto">
 								<div style={{ textAlign: "left" }} className="col-3 col-mr-auto">
 									<Button compact size='tiny' color='purple' type="submit">Submit</Button>
 								</div>

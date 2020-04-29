@@ -87,7 +87,7 @@ function Milestone(props) {
     return (
         <div>
             {milestoneState.milestone ?
-                <details className="accordion col-sm-12 col-md-9 col-lg-8 col-xl-8 col-mx-auto" open>
+                <details className="accordion col-8 col-xs-12 col-sm-12 col-md-9 col-mx-auto" open>
                     <summary className="milestoneStyle accordion-header">
                         {milestoneState.milestone.milestoneName}
                     </summary>
@@ -101,10 +101,10 @@ function Milestone(props) {
                             <div className="accordion-body" style={{ overflow: "visible" }}>
                                 <form className="form-horizontal" onSubmit={handleSubmit}>
                                     <div className="form-group" style={{ overflow: "visible" }}>
-                                        <div className="col-sm-5 col-md-3 col-lg-3 col-xl-3 col-ml-auto">
+                                        <div className="col-3 col-xs-5 col-sm-5 col-md-3 col-ml-auto">
                                             <label className="form-label" htmlFor="taskname">Task name</label>
                                         </div>
-                                        <div className="col-sm-7 col-md-7 col-lg-5 col-xl-5 col-mr-auto">
+                                        <div className="col-5 col-xs-7 col-sm-7 col-md-7 col-mr-auto">
                                             <input className="form-input"
                                                 type="text"
                                                 id="taskname"
@@ -115,10 +115,10 @@ function Milestone(props) {
                                         </div>
                                     </div>
                                     <div className="form-group">
-                                        <div className="col-sm-5 col-md-3 col-lg-3 col-xl-3 col-ml-auto">
+                                        <div className="col-3 col-xs-5 col-sm-5 col-ml-auto">
                                             <label className="form-label" htmlFor="desc">Description</label>
                                         </div>
-                                        <div className="col-sm-7 col-md-7 col-lg-5 col-xl-5 col-mr-auto">
+                                        <div className="col-5 col-xs-7 col-sm-7 col-md-7 col-mr-auto">
                                             <textarea className="form-input"
                                                 type="text"
                                                 id="desc"
@@ -130,10 +130,10 @@ function Milestone(props) {
                                         </div>
                                     </div>
                                     <div className="form-group" style={{ overflow: "visible" }}>
-                                        <div className="col-sm-5 col-md-3 col-lg-3 col-xl-3 col-ml-auto">
+                                        <div className="col-3 col-xs-5 col-sm-5 col-ml-auto">
                                             <label className="form-label" htmlFor="desc">Assign to</label>
                                         </div>
-                                        <div className="col-sm-7 col-md-7 col-lg-5 col-xl-5 col-mr-auto" style={{ overflow: "visible" }}>
+                                        <div className="col-5 col-xs-7 col-sm-7 col-md-7 col-mr-auto" style={{ overflow: "visible" }}>
                                             <div className="columns">
                                                 <div className="assignDropdown col-8">
                                                     <Dropdown
@@ -149,8 +149,8 @@ function Milestone(props) {
                                         </div>
                                     </div>
                                     <div className="form-group ">
-                                        <div className="col-sm-5 col-md-3 col-lg-3 col-xl-3 col-ml-auto"></div>
-                                        <div className="col-sm-7 col-md-7 col-lg-5 col-xl-5 col-mr-auto">
+                                        <div className="col-3 col-xs-5 col-sm-5 col-ml-auto"></div>
+                                        <div className="col-5 col-xs-7 col-sm-7 col-md-7 col-mr-auto">
                                             <div style={{ textAlign: "left" }} className="col-4 col-mr-auto">
                                                 <Button compact size='tiny' color='purple' type="submit">Submit</Button>
                                             </div>

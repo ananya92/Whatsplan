@@ -56,10 +56,10 @@ function LoginForm(props) {
                 <h4>Login</h4>
                 <form className="form-horizontal" onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <div className="col-sm-5 col-md-3 col-lg-2 col-xl-2 col-ml-auto">
+                        <div className="col-2 col-xs-5 col-sm-5 col-md-3 col-ml-auto">
                             <label className="form-label" htmlFor="username">Username</label>
                         </div>
-                        <div className="col-sm-7 col-md-5 col-lg-3 col-xl-3 col-mr-auto">
+                        <div className="col-3 col-xs-7 col-sm-7 col-md-5 col-mr-auto">
                             <input className="form-input"
                                 type="text"
                                 id="username"
@@ -71,10 +71,10 @@ function LoginForm(props) {
                         </div>
                     </div>
                     <div className="form-group">
-                        <div className="col-sm-5 col-md-3 col-lg-2 col-xl-2 col-ml-auto">
+                        <div className="col-2 col-xs-5 col-sm-5 col-md-3 col-ml-auto">
                             <label className="form-label" htmlFor="lastname">Password</label>
                         </div>
-                        <div className="col-sm-7 col-md-5 col-lg-3 col-xl-3 col-mr-auto">
+                        <div className="col-3 col-xs-7 col-sm-7 col-md-5 col-mr-auto">
                             <input className="form-input"
                                 type="password"
                                 id="password"
@@ -87,8 +87,8 @@ function LoginForm(props) {
                     </div>
                     <p className="errMsg">{loginState.errMsg}</p>
                     <div className="form-group ">
-                        <div className="col-sm-5 col-md-3 col-lg-2 col-xl-2 col-ml-auto"></div>
-                        <div className="col-sm-7 col-md-5 col-lg-3 col-xl-3 col-mr-auto">
+                        <div className="col-2 col-xs-5 col-sm-5 col-md-3 col-ml-auto"></div>
+                        <div className="col-3 col-xs-7 col-sm-7 col-md-5 col-mr-auto">
                             <div style={{ textAlign: "left" }} className="col-3 col-mr-auto">
                                 <Button compact size='tiny' color='purple' type="submit">Login</Button>
                             </div>

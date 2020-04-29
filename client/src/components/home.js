@@ -20,6 +20,9 @@ function Home(props) {
     useEffect(() => {
         // setting the planName state to null when home page is loaded so that the title bar shows Whatsplan instead of the plan name
         props.updateUser({ planName: null });
+        dispatch({ type: "initPlan", data: null });
+        dispatch({ type: "initTask", data:  null});
+        dispatch({ type: "initMilestone", data:  null});
         if (state.currentUser) {
             API.getRegisteredUsers().then(response => {
                 console.log("All registered users response:");
@@ -100,7 +103,7 @@ function Home(props) {
         state.currentUser ?
             <div className="columns" style={{ marginBottom: "30px" }}>
                 <br />
-                <div style={{ marginRight: "10px" }} className="panel col-sm-12 col-md-4 col-lg-4 col-xl-4 col-ml-auto">
+                <div style={{ marginRight: "10px" }} className="panel col-4 col-xs-12 col-sm-12 col-ml-auto">
                     <div className="panel-header">
                         <div className="panel-title text-bold" style={{ textAlign: "left" }}><h4>Your current plans:</h4></div>
                     </div>
@@ -112,24 +115,24 @@ function Home(props) {
                                         <span style={{ color: "purple" }}><i class="far fa-paper-plane"></i></span>
                                     </div>
                                     <div className="tile-content">
-                                        <button value={plan.title} className="btn btn-link" style={{ fontSize: "1rem" }} onClick={(e) => handlePlanClick(e, plan)}>{plan.title}</button>
+                                        <button value={plan.title} className="btn btn-link" style={{ fontSize: "1rem", textAlign: "left" }} onClick={(e) => handlePlanClick(e, plan)}>{plan.title}</button>
                                     </div>
                                 </div>
                             ))}
                         </form>
                     </div>
                 </div>
-                <div style={{ marginLeft: "10px" }} className="panel col-sm-12 col-md-7 col-lg-7 col-xl-7 col-mr-auto">
+                <div style={{ marginLeft: "10px" }} className="panel col-7 col-xs-12 col-sm-12 col-mr-auto">
                     <div className="panel-header">
                         <div className="panel-title text-bold"><h4>Lets get started!</h4></div>
                     </div>
                     <div class="panel-body">
                         <form className="form-horizontal" onSubmit={handleFormSubmit}>
                             <div className="form-group">
-                                <div className="col-sm-5 col-md-4 col-lg-4 col-xl-4 col-ml-auto">
+                                <div className="col-4 col-xs-5 col-sm-5 col-ml-auto">
                                     <label className="form-label" htmlFor="newPlanName">Plan Name</label>
                                 </div>
-                                <div className="col-sm-7 col-md-7 col-lg-7 col-xl-6 col-mr-auto">
+                                <div className="col-7 col-xl-6 col-mr-auto">
                                     <input className="form-input"
                                         type="text"
                                         id="newPlanName"
@@ -140,10 +143,10 @@ function Home(props) {
                                 </div>
                             </div>
                             <div className="form-group">
-                                <div className="col-sm-5 col-md-4 col-lg-4 col-xl-4 col-ml-auto">
+                                <div className="col-4 col-xs-5 col-sm-5 col-ml-auto">
                                     <label className="form-label" htmlFor="newPlanName">Add collaborators</label>
                                 </div>
-                                <div className="col-sm-7 col-md-7 col-lg-7 col-xl-6 col-mr-auto">
+                                <div className="col-7 col-xl-6 col-mr-auto">
                                     <Dropdown
                                         clearable
                                         placeholder='Search..'
@@ -158,8 +161,8 @@ function Home(props) {
                                 </div>
                             </div>
                             <div className="form-group">
-                                <div className="col-sm-5 col-md-4 col-lg-4 col-xl-4 col-ml-auto" />
-                                <div className="col-sm-7 col-md-7 col-lg-7 col-xl-6 col-mr-auto">
+                                <div className="col-4 col-xs-5 col-sm-5 col-ml-auto" />
+                                <div className="col-7 col-xl-6 col-mr-auto">
                                     <div style={{ textAlign: "left" }} className="col-2 col-mr-auto">
                                         <Button compact size='tiny' color='purple' type="submit">Submit</Button>
                                     </div>

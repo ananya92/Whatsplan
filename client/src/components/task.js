@@ -28,9 +28,15 @@ function Task(props) {
     }, []);
     function handleTaskClick(event) {
         event.preventDefault();
-        // saving the task as the current task in Global Store
-        dispatch({ type: "initTask", data: taskState.task });
-        history.push("/taskInfo");
+        // saving the task as the current task  and the milestone as current milestone in Global Store
+        API.getMilestoneByTaskId(taskState.task._id).then(function(response) {
+            dispatch({ type: "initMilestone", data:  response.data});
+            dispatch({ type: "initTask", data: taskState.task });
+            history.push("/taskInfo");
+        })
+        .catch(error => {
+            console.log("Error while getting task by id: ", error);
+        });
     }
     return (
         <div>
