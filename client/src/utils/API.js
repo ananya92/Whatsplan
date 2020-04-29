@@ -71,5 +71,8 @@ export default {
             milestone_id: milestone_id,
             task_id: task_id
         })
+    },
+    getMilestoneByTaskId: function(taskId) {
+        return axios.get(`/api/wp/milestone/task/${taskId}`)
     }
 };

@@ -14,6 +14,8 @@ const reducer = (state, action) => {
             return { ...state, currentTask: action.data }
         case "initUser":
             return { ...state, currentUser: action.data }
+        case "initMilestone":
+            return { ...state, currentMilestone: action.data }
         default:
             throw new Error(`Invalid action type: ${action.type}`);
     }

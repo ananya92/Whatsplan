@@ -73,6 +73,23 @@ router.get('/milestone/:id', (req, res) => {
     });
 });
 
+//Get milestone by task ID
+router.get('/milestone/task/:taskId', (req, res) => {
+    console.log("Reached here");
+    Milestone.findOne({ tasks : req.params.taskId }, (err, milestone) => {
+        if (err) {
+            console.log(err);
+        }
+        else if (milestone) {
+            console.log("Found milestone");
+            console.log(milestone);
+            res.json(milestone);
+        }
+        else {
+            console.log("No milestone exists which has task id ", req.params.taskId);
+        }
+    });
+});
 // Add new task
 router.post('/task', (req, res) => {
     console.log('Post new task', req.body);
