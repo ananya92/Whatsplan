@@ -159,22 +159,22 @@ function Milestone(props) {
                                 </form>
                             </div>
                         </details>
-                        <Table compact singleLine columns={4} unstackable color='purple' key='purple'>
+                        <Table unstackable color='purple' key='purple'>
                         <Table.Header>
                                 <Table.Row>
-                                    <Table.HeaderCell 
+                                    <Table.HeaderCell width={5}
                                         >
                                         Task Name
                                     </Table.HeaderCell>
-                                    <Table.HeaderCell 
+                                    <Table.HeaderCell width={5}
                                         >
-                                        Asignee
+                                        &nbsp;Asignee
                                     </Table.HeaderCell>
-                                    <Table.HeaderCell 
+                                    <Table.HeaderCell width={3}
                                         >
                                         Status
                                     </Table.HeaderCell>
-                                    <Table.HeaderCell 
+                                    <Table.HeaderCell width={3}
                                         >
                                         Timeline
                                     </Table.HeaderCell>
