@@ -5,9 +5,10 @@ import { Dropdown, Button } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import API from "../utils/API";
 import "react-datepicker/dist/react-datepicker.css";
+import moment from 'moment';
 
 function TaskInfo() {
-    const [state, dispatch] = usePlanContext();
+    const [state, _] = usePlanContext();
 
     const [taskState, setTaskState] = useState({
         taskVal: state.currentTask.taskName,
@@ -193,7 +194,7 @@ function TaskInfo() {
                                         placeholderText="Select start date"
                                     /> :
                                     state.currentTask.startDate ?
-                                        <p>{state.currentTask.startDate}</p> : <p>-</p>}
+                                        <p>{moment(state.currentTask.startDate).format('MM/DD/YYYY')}</p> : <p>-</p>}
                             </div>
                         </div>
                         <div className="form-group">
@@ -213,7 +214,7 @@ function TaskInfo() {
                                         placeholderText="Select end date"
                                     /> :
                                     state.currentTask.endDate ?
-                                        <p>{state.currentTask.endDate}</p> : <p>-</p>}
+                                        <p>{moment(state.currentTask.endDate).format('MM/DD/YYYY')}</p> : <p>-</p>}
                             </div>
                         </div>
                         {state.currentUser._id === state.currentTask.asignee ||
