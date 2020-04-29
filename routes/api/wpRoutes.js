@@ -190,5 +190,34 @@ router.put('/addCommentToTask', (req, res) => {
         }
     });
 });
+
+// get comments by ids
+router.get("/getCommentsByTaskId/:task_id", (req, res) => {
+    console.log("Reached in comments: ", req.params.task_id);
+    Task.findOne({_id : req.params.task_id}, (err, task) => {
+        if (err) {
+            console.log(err);
+        }
+        else if (task) {
+            console.log(task);
+            Comment.find({_id : {$in: task.comments}}, (err, result) => {
+                if (err) {
+                    console.log(err);
+                }
+                else if (result) {
+                    console.log(result);
+                    res.json(result);
+                }
+                else {
+                    console.log("No comment exists with ids in:", task.comments);
+                }
+            });
+        }
+        else {
+            console.log("No task exists with id ", req.params.task_id);
+        }
+    })
+});
+
 module.exports = router;
 

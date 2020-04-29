@@ -87,5 +87,8 @@ export default {
             task_id: task_id,
             comment_id: comment_id
         })
+    },
+    getCommentsByTaskId: function(task_id) {
+        return axios.get(`/api/wp/getCommentsByTaskId/${task_id}`)
     }
 };
