@@ -71,11 +71,11 @@ summary, .accordian-body {
   padding-left: 0.4rem !important;
 }
 
-.assignDropdown .dropdown{
+.assignDropdown .dropdown {
   min-height: 25px !important;
 }
 
-.assignDropdown {
+.assignDropdown, .statusDropdown {
   padding-left : 0.4rem !important;
 }
 
@@ -86,4 +86,33 @@ summary, .accordian-body {
 
 .ui.table {
   margin-bottom: 0px !important;
+}
+
+.form-horizontal {
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+}
+
+.statusDropdown div.default.text {
+  color: black !important;
+}
+
+.grey {
+  color: rgb(172, 168, 168);
+  font-weight: 700;
+}
+
+.blue {
+  color: blue;
+  font-weight: 700;
+}
+
+.green {
+  color: rgb(9, 223, 9);
+  font-weight: 700;
+}
+
+.red {
+  color: rgb(255, 40, 40);
+  font-weight: 700;
 }
