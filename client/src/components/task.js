@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import API from "../utils/API";
 import { Table } from 'semantic-ui-react';
+import { usePlanContext } from "../utils/GlobalState";
+import history from "../utils/history";
 
 function Task(props) {
+    const [_, dispatch] = usePlanContext();
     const [taskState, setTaskState] = useState({
         task: null
     });
@@ -23,6 +26,12 @@ function Task(props) {
             console.log("Error while getting task by id: ", error);
         });
     }, []);
+    function handleTaskClick(event) {
+        event.preventDefault();
+        // saving the task as the current task in Global Store
+        dispatch({ type: "initTask", data: taskState.task });
+        history.push("/taskInfo");
+    }
     return (
         <div>
             {taskState.task ?
@@ -30,11 +39,11 @@ function Task(props) {
             <Table.Body>
                 <Table.Row>
                     <Table.Cell>
-                        {taskState.task.taskName}
+                        <a href="" onClick = {(event) => {handleTaskClick(event)}}>{taskState.task.taskName}</a>                    
                     </Table.Cell>
                     <Table.Cell>{taskAsigneeState.asigneeName}</Table.Cell>
                     <Table.Cell>{taskState.task.status}</Table.Cell>
-                    <Table.Cell></Table.Cell>
+                    <Table.Cell>{taskState.task.startDate} - {taskState.task.endDate}</Table.Cell>
                 </Table.Row>
             </Table.Body>
             </Table>
