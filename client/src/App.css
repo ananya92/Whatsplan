@@ -102,8 +102,8 @@ summary, .accordian-body {
   font-weight: 700;
 }
 
-.blue {
-  color: blue;
+.purple {
+  color: rgb(190, 9, 190);
   font-weight: 700;
 }
 
@@ -115,4 +115,13 @@ summary, .accordian-body {
 .red {
   color: rgb(255, 40, 40);
   font-weight: 700;
+}
+
+.progress .label {
+  background-color: white !important;
+  font-weight: normal !important;
+}
+
+.noMarginCell .progress {
+  margin-bottom: 0px !important;
 }
