@@ -6,9 +6,10 @@ import DatePicker from 'react-datepicker';
 import API from "../utils/API";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
+import Comment from "./comment";
 
 function TaskInfo() {
-    const [state, _] = usePlanContext();
+    const [state, dispatch] = usePlanContext();
     const commentRef = useRef();
     const [taskState, setTaskState] = useState({
         taskVal: state.currentTask.taskName,
@@ -20,8 +21,12 @@ function TaskInfo() {
         name: "",
         asignee: ""
     });
+
     const [assignOptionsState, setAssignOptionsState] = useState({
         members: []
+    });
+    const [commentsState, setCommentsState] = useState({
+        comments: []
     });
     const [startDate, setStartDate] = useState(state.currentTask.startDate ?
         new Date(state.currentTask.startDate) : null);
@@ -55,6 +60,15 @@ function TaskInfo() {
             });
         });
     }, []);
+    // Fetch all the comments of the task from databse whenever new comment is added
+    useEffect(() => {
+        API.getCommentsByTaskId(state.currentTask._id).then(response => {
+            console.log("Got the comments:", response.data);
+            setCommentsState({ comments: response.data });
+        }).catch(error => {
+            console.log("Error while getting comment by id: ", error);
+        });
+    }, [state.currentTask.comments]);
 
     function handleStatusChange(event, data) {
         event.preventDefault();
@@ -72,16 +86,26 @@ function TaskInfo() {
     // function to post new comment
     function handleComment(event) {
         event.preventDefault();
-        API.newComment({ 
-            comment: commentRef.current.value,
-            task: state.currentTask._id,
-            commentedBy: state.currentUser._id
-        }).then(function(response) {
-            console.log("Posted new comment:", response);
-            // Add the new comment id to the task in database and save the task back to the global store
-        }).catch(error => {
-            console.log("Error while posting new comment: ", error);
-        });
+        if (commentRef.current.value !== null && commentRef.current.value !== "") {
+            API.newComment({
+                comment: commentRef.current.value,
+                task: state.currentTask._id,
+                commentedBy: state.currentUser._id
+            }).then(function (response) {
+                console.log("Posted new comment:", response);
+                commentRef.current.value = "";
+                // Add the new comment id to the task in database and save the task back to the global store
+                API.addCommentToTask(response.data._id, state.currentTask._id).then(function (response1) {
+                    console.log("Added comment to task", response1);
+                    // save the updated record into the global store
+                    dispatch({ type: "initTask", data: response1.data });
+                }).catch(error => {
+                    console.log("Error while adding comment to task: ", error);
+                });
+            }).catch(error => {
+                console.log("Error while posting new comment: ", error);
+            });
+        }
     }
 
     // On submit, the task should be updated with updated values. Also the milestone state and plan state might change due to change in task status so it should be tested. 
@@ -247,16 +271,28 @@ function TaskInfo() {
                             </div> : <br />}
                     </form>
                     <form onSubmit={handleComment}>
-                        <div className="commentStyle col-9 col-xs-12 col-sm-12 col-md-11 col-mx-auto">
-                            <textarea className="form-input"
-                                placeholder="Post a comment"
-                                type="text"
-                                id="comment"
-                                name="comment"
-                                rows={3}
-                                ref={commentRef} />
-                            <div style={{textAlign: "right", marginTop: "0.4rem"}} className="col-4 col-ml-auto">
-                                <Button compact size='tiny' color='purple' type="submit">Post Comment</Button>
+                        <div className="commentStyle panel col-9 col-xs-12 col-sm-12 col-md-11 col-mx-auto">
+                            <div className="panel-header">
+                                <div style={{ textAlign: "left" }} class="panel-title">Comments</div>
+                            </div>
+                            <div className="panel-body">
+                                {commentsState.comments.map(comment => (
+                                    <Comment comment={comment} />
+                                ))}
+                            </div>
+                            <div class="panel-footer">
+                                <div>
+                                    <textarea className="form-input"
+                                        placeholder="Post a comment"
+                                        type="text"
+                                        id="comment"
+                                        name="comment"
+                                        rows={3}
+                                        ref={commentRef} />
+                                    <div style={{ textAlign: "right", marginTop: "0.4rem" }} className="col-4 col-ml-auto">
+                                        <Button compact size='tiny' color='purple' type="submit">Post Comment</Button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </form>
