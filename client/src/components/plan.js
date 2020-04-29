@@ -79,7 +79,6 @@ function Plan() {
                                         selected={startDate}
                                         onChange={date => setStartDate(date)}
                                         minDate={(new Date())}
-                                        showDisabledMonthNavigation
                                         isClearable
                                         popperPlacement="top-end"
                                     />
