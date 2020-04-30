@@ -130,7 +130,7 @@ router.get('/getCurrentPlans', (req, res) => {
       console.log(err);
     } 
     else if(user) {
-      Plan.find({_id : {$in: user.plans}, status : {$nin: "Complete"}}, (err, plans) => {
+      Plan.find({_id : {$in: user.plans}, status : {$nin: "Done"}}, (err, plans) => {
         if (err) {
           console.log(err);
         } 

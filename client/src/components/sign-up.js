@@ -27,7 +27,17 @@ class Signup extends Component {
 	handleSubmit(event) {
 		console.log('sign-up handleSubmit');
 		event.preventDefault();
-		if (this.state.password === this.state.confirmPassword) {
+		if(
+			this.state.username === "" ||
+			this.state.password === "" ||
+			this.state.firstname === "" ||
+			this.state.lastname === "" ||
+			this.state.email === "" ||
+			this.state.confirmPassword === ""
+		) {
+			this.setState({ errMsg: "Value missing in one or more required fields!"});
+		}
+		else if (this.state.password === this.state.confirmPassword) {
 			if(this.state.errMsg === "") {
 				API.registerUser({
 					firstname: this.state.firstname,
