@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import API from "../utils/API";
-import Task from "./task";
+import API from "../../utils/API";
+import Task from "../task";
 import { Dropdown, Button } from 'semantic-ui-react';
-import { usePlanContext } from "../utils/GlobalState";
+import { usePlanContext } from "../../utils/GlobalState";
 import { Table } from 'semantic-ui-react';
+import avatarImg from "./img/avatar.png";
 
 function Milestone(props) {
     const taskRef = useRef();
@@ -32,7 +33,7 @@ function Milestone(props) {
                     key: index,
                     text: `${response.data.firstname} ${response.data.lastname}`,
                     value: `${response.data._id}`,
-                    image: { avatar: true, src: '/images/avatar.PNG' }
+                    image: { avatar: true, src: avatarImg }
                 }
                 // adding the option to the members in assignOptionsState
                 setAssignOptionsState(prevState => ({

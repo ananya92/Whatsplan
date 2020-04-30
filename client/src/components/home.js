@@ -106,7 +106,7 @@ function Home(props) {
                 <br />
                 <div style={{ marginRight: "10px" }} className="panel col-4 col-xs-12 col-sm-12 col-ml-auto">
                     <div className="panel-header">
-                        <div className="panel-title text-bold" style={{ textAlign: "left" }}><h4>Your current plans:</h4></div>
+                        <div className="panel-title text-bold" style={{textAlign: "left" }}><h4 style={{fontSize: "large"}}>Your current plans:</h4></div>
                     </div>
                     <div class="panel-body">
                         <form>
@@ -126,7 +126,7 @@ function Home(props) {
                 <div style={{ marginLeft: "10px", overflow: "visible" }} className="col-7 col-xs-12 col-sm-12 col-mr-auto">
                     <div style={{ overflow: "visible" }} className="panel">
                         <div className="panel-header">
-                            <div className="panel-title text-bold"><h4>Lets get started!</h4></div>
+                            <div className="panel-title text-bold"><h4 style={{fontSize: "large"}} >Lets get started!</h4></div>
                         </div>
                         <div class="panel-body" style={{ overflow: "visible" }}>
                             <form className="form-horizontal" onSubmit={handleFormSubmit} style={{ overflow: "visible" }}>

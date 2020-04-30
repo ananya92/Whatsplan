@@ -14,7 +14,20 @@ function Plan() {
     useEffect(() => {
         dispatch({ type: "initTask", data: null });
         dispatch({ type: "initMilestone", data:  null});
-    }, [])
+    }, []);
+    const [infoState, setInfoState] = useState({
+        infoMsg: ""
+    });
+    const [submitState, setSubmitState] = useState({
+        submit: false
+    });
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setInfoState({ infoMsg: ""});
+        }, 4000);
+        return () => clearTimeout(timer);
+      }, [submitState]);
+
     function handleSubmit(event) {
         event.preventDefault();
         API.addNewMilestone({
@@ -25,6 +38,8 @@ function Plan() {
             .then(response => {
                 milestoneRef.current.value = "";
                 console.log('successfully created new milestone: ', response);
+                setInfoState({ infoMsg: "Created new milestone"});
+                setSubmitState({ submit: true});
                 // Add the created milestone to the plan
                 API.addMilestoneToPlan(state.currentPlan._id, response.data._id)
                     .then(response1 => {
@@ -48,7 +63,7 @@ function Plan() {
     const [startDate, setStartDate] = useState(new (Date));
     return (
         state.currentPlan ?
-            <div>
+            <div style={{ marginBottom: "30px" }}>
                 <details className="accordion panel col-8 col-xs-12 col-sm-12 col-md-10 col-mx-auto">
                     <summary style={{ textAlign: "left" }} className="accordion-header">
                         <i className="icon icon-arrow-right mr-1"></i>
@@ -90,6 +105,7 @@ function Plan() {
                                     <div style={{ textAlign: "left" }} className="col-4 col-mr-auto">
                                         <Button compact size='tiny' color='purple' type="submit">Submit</Button>
                                     </div>
+                                    <p style={{ fontSize: "small", color: "green", paddingTop: "15px" }}>{infoState.infoMsg}</p>
                                 </div>
                             </div>
                         </form>

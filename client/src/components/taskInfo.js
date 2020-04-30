@@ -133,7 +133,7 @@ function TaskInfo() {
     return (
         <div>
             {state.currentTask && state.currentUser ? (
-                <div>
+                <div style={{ marginBottom: "30px" }}>
                     <form className="form-horizontal" style={{ textAlign: "left" }} onSubmit={handleSubmit}>
                         <div className="form-group">
                             <div className="col-3 col-xs-4 col-sm-4 col-ml-auto">
@@ -273,7 +273,7 @@ function TaskInfo() {
                     <form onSubmit={handleComment}>
                         <div className="commentStyle panel col-9 col-xs-12 col-sm-12 col-md-11 col-mx-auto">
                             <div className="panel-header">
-                                <div style={{ textAlign: "left" }} class="panel-title">Comments</div>
+                                <div style={{ textAlign: "left", fontWeight: 700 }} class="panel-title">Comments</div>
                             </div>
                             <div className="panel-body">
                                 {commentsState.comments.map(comment => (
