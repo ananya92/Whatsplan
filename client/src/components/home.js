@@ -22,8 +22,8 @@ function Home(props) {
         // setting the planName state to null when home page is loaded so that the title bar shows Whatsplan instead of the plan name
         props.updateUser({ planName: null });
         dispatch({ type: "initPlan", data: null });
-        dispatch({ type: "initTask", data:  null});
-        dispatch({ type: "initMilestone", data:  null});
+        dispatch({ type: "initTask", data: null });
+        dispatch({ type: "initMilestone", data: null });
         if (state.currentUser) {
             API.getRegisteredUsers().then(response => {
                 console.log("All registered users response:");
@@ -100,7 +100,7 @@ function Home(props) {
         dispatch({ type: "initPlan", data: plan });
         history.push("/plan");
     }
-    return(
+    return (
         state.currentUser ?
             <div className="columns" style={{ marginBottom: "30px", overflow: "visible" }}>
                 <br />
@@ -115,7 +115,7 @@ function Home(props) {
                                     <div className="tile-icon">
                                         <span style={{ color: "purple" }}><i class="far fa-paper-plane"></i></span>
                                     </div>
-                                    <div className="tile-content">
+                                    <div className="tile-content" style={{ textAlign: "left" }}>
                                         <button value={plan.title} className="btn btn-link" style={{ fontSize: "1rem", textAlign: "left" }} onClick={(e) => handlePlanClick(e, plan)}>{plan.title}</button>
                                     </div>
                                 </div>
@@ -123,60 +123,62 @@ function Home(props) {
                         </form>
                     </div>
                 </div>
-                <div style={{ marginLeft: "10px", overflow: "visible" }} className="panel col-7 col-xs-12 col-sm-12 col-mr-auto">
-                    <div className="panel-header">
-                        <div className="panel-title text-bold"><h4>Lets get started!</h4></div>
-                    </div>
-                    <div class="panel-body" style={{ overflow: "visible" }}>
-                        <form className="form-horizontal" onSubmit={handleFormSubmit} style={{ overflow: "visible" }}>
-                            <div className="form-group">
-                                <div className="col-4 col-xs-5 col-sm-5 col-ml-auto">
-                                    <label className="form-label" htmlFor="newPlanName">Plan Name</label>
-                                </div>
-                                <div className="col-7 col-xl-6 col-mr-auto">
-                                    <input className="form-input"
-                                        type="text"
-                                        id="newPlanName"
-                                        name="newPlanName"
-                                        placeholder="What are you planning?"
-                                        ref={planRef}
-                                    />
-                                </div>
-                            </div>
-                            <div className="form-group" style={{ overflow: "visible" }}>
-                                <div className="col-4 col-xs-5 col-sm-5 col-ml-auto">
-                                    <label className="form-label" htmlFor="newPlanName">Add collaborators</label>
-                                </div>
-                                <div className="col-7 col-xl-6 col-mr-auto" style={{ overflow: "visible" }}>
-                                    <Dropdown
-                                        clearable
-                                        placeholder='Search..'
-                                        fluid
-                                        multiple
-                                        search
-                                        selection
-                                        options={usersState.registeredUsers}
-                                        fullTextSearch
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                            </div>
-                            <div className="form-group">
-                                <div className="col-4 col-xs-5 col-sm-5 col-ml-auto" />
-                                <div className="col-7 col-xl-6 col-mr-auto">
-                                    <div style={{ textAlign: "left" }} className="col-2 col-mr-auto">
-                                        <Button compact size='tiny' color='purple' type="submit">Submit</Button>
+                <div style={{ marginLeft: "10px", overflow: "visible" }} className="col-7 col-xs-12 col-sm-12 col-mr-auto">
+                    <div style={{ overflow: "visible" }} className="panel">
+                        <div className="panel-header">
+                            <div className="panel-title text-bold"><h4>Lets get started!</h4></div>
+                        </div>
+                        <div class="panel-body" style={{ overflow: "visible" }}>
+                            <form className="form-horizontal" onSubmit={handleFormSubmit} style={{ overflow: "visible" }}>
+                                <div className="form-group">
+                                    <div className="col-4 col-xs-5 col-sm-5 col-ml-auto">
+                                        <label className="form-label" htmlFor="newPlanName">Plan Name</label>
+                                    </div>
+                                    <div className="col-7 col-xl-6 col-mr-auto">
+                                        <input className="form-input"
+                                            type="text"
+                                            id="newPlanName"
+                                            name="newPlanName"
+                                            placeholder="What are you planning?"
+                                            ref={planRef}
+                                        />
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                                <div className="form-group" style={{ overflow: "visible" }}>
+                                    <div className="col-4 col-xs-5 col-sm-5 col-ml-auto">
+                                        <label className="form-label" htmlFor="newPlanName">Add collaborators</label>
+                                    </div>
+                                    <div className="col-7 col-xl-6 col-mr-auto" style={{ overflow: "visible" }}>
+                                        <Dropdown
+                                            clearable
+                                            placeholder='Search..'
+                                            fluid
+                                            multiple
+                                            search
+                                            selection
+                                            options={usersState.registeredUsers}
+                                            fullTextSearch
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="form-group">
+                                    <div className="col-4 col-xs-5 col-sm-5 col-ml-auto" />
+                                    <div className="col-7 col-xl-6 col-mr-auto">
+                                        <div style={{ textAlign: "left", marginBottom: "15px" }} className="col-2 col-mr-auto">
+                                            <Button compact size='tiny' color='purple' type="submit">Submit</Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div> 
-        :
-            <div style={{width: '100%', height:"100%", background: 'url(/images/snip.jpg) center / cover'}}>
+            </div>
+            :
+            <div style={{ width: '100%', height: "100%", background: 'url(/images/snip.jpg) center / cover' }}>
                 <h4>Welcome to Whatsplan app!</h4>
-                <p>Please <a style={{color: "purple", fontWeight: 700}} href="/login">Login</a> or <a style={{color: "purple", fontWeight: 700}} href="/signup">Sign up</a> to continue!</p>
+                <p>Please <a style={{ color: "purple", fontWeight: 700 }} href="/login">Login</a> or <a style={{ color: "purple", fontWeight: 700 }} href="/signup">Sign up</a> to continue!</p>
             </div>
     )
 }
