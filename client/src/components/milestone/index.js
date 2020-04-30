@@ -5,6 +5,7 @@ import { Dropdown, Button } from 'semantic-ui-react';
 import { usePlanContext } from "../../utils/GlobalState";
 import { Table } from 'semantic-ui-react';
 import avatarImg from "./img/avatar.png";
+import moment from 'moment';
 
 function Milestone(props) {
     const taskRef = useRef();
@@ -19,9 +20,19 @@ function Milestone(props) {
     const [assignedState, setAssignedState] = useState({
         asignee: ""
     });
+    const [deadlineState, setDeadlineState] = useState({
+        text: ""
+    });
     useEffect(() => {
         API.getMilestone(props.milestoneId).then(response => {
-            setMilestoneState({ milestone: response.data })
+            setMilestoneState({ milestone: response.data });
+            var now = moment();
+            var deadline = response.data.deadline ? moment(response.data.deadline) : null;
+            var deadlineText = deadline ? deadline.from(now) : "";
+            if(deadline.diff(now, 'days') < 0) {
+                deadlineText = "Overdue";
+            }
+            setDeadlineState({ text: deadlineText});
         }).catch(error => {
             console.log("Error while getting milestone by id: ", error);
         });
@@ -84,13 +95,16 @@ function Milestone(props) {
         console.log("Selected:", data.value);
         setAssignedState({ asignee: data.value });
     }
-
+    
     return (
         <div>
             {milestoneState.milestone ?
                 <details className="accordion col-8 col-xs-12 col-sm-12 col-md-9 col-mx-auto" open>
                     <summary className="milestoneStyle accordion-header">
-                        {milestoneState.milestone.milestoneName}
+                        <div className="columns">
+                            <div style={{textAlign: "left"}} className="mtitle col-6 col-mr-auto">{milestoneState.milestone.milestoneName}</div>
+                            <div style={{textAlign: "right", marginTop: "20px"}} className="col-3 col-ml-auto">{deadlineState.text}</div>
+                        </div>
                     </summary>
                     <hr />
                     <div className="accordion-body col-11 col-mx-auto" style={{ overflow: "visible" }}>
