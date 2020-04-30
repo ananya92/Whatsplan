@@ -3,6 +3,7 @@ import { Dropdown, Button } from 'semantic-ui-react';
 import API from "../utils/API";
 import { usePlanContext } from "../utils/GlobalState";
 import history from "../utils/history";
+import { urlencoded } from 'body-parser';
 
 function Home(props) {
     const planRef = useRef();
@@ -173,9 +174,9 @@ function Home(props) {
                 </div>
             </div> 
         :
-            <div>
+            <div style={{width: '100%', height:"100%", background: 'url(/images/snip.jpg) center / cover'}}>
                 <h4>Welcome to Whatsplan app!</h4>
-                <p>Please <a href="/login">login</a> or <a href="/signup">Sign up</a> to continue!</p>
+                <p>Please <a style={{color: "purple", fontWeight: 700}} href="/login">Login</a> or <a style={{color: "purple", fontWeight: 700}} href="/signup">Sign up</a> to continue!</p>
             </div>
     )
 }
