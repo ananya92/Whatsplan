@@ -96,19 +96,24 @@ function Task(props) {
                             </Table.Cell>
                             <Table.Cell width={5}>{taskAsigneeState.asigneeName}</Table.Cell>
                             <Table.Cell width={3} className={colorState.color}>{taskState.task.status}</Table.Cell>
-                            {progressState.overdue ?
+                            {taskState.task.status === "Done" ?
                                 <Table.Cell width={3}>
-                                    <Progress percent={progressState.percentage} progress color='orange' label={progressState.text} />
+                                    <Progress percent={progressState.percentage} progress color='green'/>
                                 </Table.Cell>
                                 :
-                                progressState.percentage === 100 || progressState.percentage === 0 ?
-                                    <Table.Cell className="noMarginCell" width={3}>
-                                        <Progress percent={progressState.percentage} progress color={colorState.color} />
+                                progressState.overdue ?
+                                    <Table.Cell width={3}>
+                                        <Progress percent={progressState.percentage} progress color='orange' label={progressState.text} />
                                     </Table.Cell>
                                     :
-                                    <Table.Cell width={3}>
-                                        <Progress percent={progressState.percentage} progress color={colorState.color} label={progressState.text} />
-                                    </Table.Cell>
+                                    progressState.percentage === 0 ?
+                                        <Table.Cell className="noMarginCell" width={3}>
+                                            <Progress percent={progressState.percentage} progress color={colorState.color} />
+                                        </Table.Cell>
+                                        :
+                                        <Table.Cell width={3}>
+                                            <Progress percent={progressState.percentage} progress color={colorState.color} label={progressState.text} />
+                                        </Table.Cell>
                             }
                         </Table.Row>
                     </Table.Body>
