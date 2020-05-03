@@ -89,12 +89,12 @@ class App extends Component {
             <Signup />}
         />
         <Route
-          path="/plan"
+          path="/plan/:id"
           render={() =>
             <Plan planName={this.state.planName}/>}
         />
         <Route
-          path="/taskInfo"
+          path="/taskInfo/:id"
           render={() =>
             <TaskInfo/>}
         />
