@@ -1,20 +1,58 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from 'semantic-ui-react';
 import API from "../utils/API";
-import { Redirect } from 'react-router-dom';
 import { usePlanContext } from "../utils/GlobalState";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import Milestone from "./milestone";
+import { withRouter } from "react-router";
+import history from "../utils/history";
 
-function Plan() {
+function Plan(props) {
     const [state, dispatch] = usePlanContext();
+    const [currentPlan, setCurrentPlan] = useState({
+        plan: {},
+        errMsg: ""
+    })
     const milestoneRef = useRef();
     // on loading plan page, I am no longer looking at a particular task or milestone hence setting the initTask to null
     useEffect(() => {
         dispatch({ type: "initTask", data: null });
         dispatch({ type: "initMilestone", data:  null});
-    }, []);
+        console.log(props.match.params.id);
+        API.getUser().then(response1 => {
+            // check if user is logged in
+            if(response1.data.user) {
+                // user is logged in, check if the user is a member of the plan or not; only members can view the plan
+                API.getPlan(props.match.params.id).then(response => {
+                    let isMember = false;
+                    for(var i=0; i<response.data.members.length; i++) {
+                        if(response.data.members[i] === response1.data.user.email) {
+                            isMember = true;
+                            break;
+                        }
+                    }
+                    console.log(isMember);
+                    if(isMember) {
+                        // the logged in user is a member of the plan
+                        dispatch({ type: "initPlan", data: response.data});
+                        setCurrentPlan({...currentPlan, plan: response.data});
+                    }
+                    else {
+                        // the logged-in user is not a member of plan and doesn't have permission to view the plan details
+                        setCurrentPlan({...currentPlan, errMsg: "Sorry! Only collaborators are allowed to view the plan's details."});
+                    }
+                    
+                }).catch(error => {
+                    console.log('get plan error: ', error);
+                });
+            }
+            else {
+                //user is not logged in, redirect to login page
+                history.push("/");
+            }
+        })
+    }, [state.currentUser]);
     const [infoState, setInfoState] = useState({
         infoMsg: ""
     });
@@ -41,7 +79,7 @@ function Plan() {
                 setInfoState({ infoMsg: "Created new milestone"});
                 setSubmitState({ submit: true});
                 // Add the created milestone to the plan
-                API.addMilestoneToPlan(state.currentPlan._id, response.data._id)
+                API.addMilestoneToPlan(currentPlan.plan._id, response.data._id)
                     .then(response1 => {
                         console.log("Added milestone to plan:");
                         // Getting the updated plan from database
@@ -62,7 +100,7 @@ function Plan() {
     }
     const [startDate, setStartDate] = useState(new (Date));
     return (
-        state.currentPlan ?
+        currentPlan.plan.title ?
             <div style={{ marginBottom: "30px" }}>
                 <details className="accordion panel col-8 col-xs-12 col-sm-12 col-md-10 col-mx-auto">
                     <summary style={{ textAlign: "left" }} className="accordion-header">
@@ -111,13 +149,14 @@ function Plan() {
                         </form>
                     </div>
                 </details>
-                {state.currentPlan.milestones.map(milestoneId => (
+                {currentPlan.plan.milestones.map(milestoneId => (
                     <Milestone milestoneId={milestoneId}></Milestone>
                 ))
                 }
             </div> :
-            <Redirect to={{ pathname: "/" }} />
+            (currentPlan.errMsg != "") ? 
+            <h4>{currentPlan.errMsg}</h4> : <br/>
     );
 }
 
-export default Plan;
+export default withRouter(Plan);

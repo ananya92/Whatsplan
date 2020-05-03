@@ -3,7 +3,7 @@ import { Dropdown, Button } from 'semantic-ui-react';
 import API from "../utils/API";
 import { usePlanContext } from "../utils/GlobalState";
 import history from "../utils/history";
-import { urlencoded } from 'body-parser';
+import { withRouter } from "react-router";
 
 function Home(props) {
     const planRef = useRef();
@@ -80,7 +80,7 @@ function Home(props) {
                 });
                 // Saving the new created plan as the current plan in Global store
                 dispatch({ type: "initPlan", data: response.data });
-                history.push("/plan");
+                history.push(`/plan/${response.data._id}`);
             }).catch(error => {
                 console.log('plan creation error: ', error);
             });
@@ -98,7 +98,7 @@ function Home(props) {
         props.updateUser({ planName: plan.title });
         // Saving the selected plan as the current plan in Global store
         dispatch({ type: "initPlan", data: plan });
-        history.push("/plan");
+        history.push(`/plan/${plan._id}`);
     }
     return (
         state.currentUser ?
@@ -183,4 +183,4 @@ function Home(props) {
     )
 }
 
-export default Home;
+export default withRouter(Home);
