@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const controller = require("../../controllers/controller");
 const passport = require("../../config/passport");
 const User = require("../../models/user");
 const Plan = require("../../models/plan");
