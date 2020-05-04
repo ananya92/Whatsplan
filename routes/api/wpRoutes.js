@@ -4,6 +4,8 @@ const Plan = require("../../models/plan");
 const Milestone = require("../../models/milestone");
 const Task = require("../../models/task");
 const Comment = require("../../models/comment");
+const Notification = require("../../models/notification");
+
 // Matches with "/api/wp"
 //Add new plan
 router.post('/plan', (req, res) => {
@@ -234,6 +236,19 @@ router.get('/plan/milestone/:milestone_id', (req, res) => {
         else {
             console.log("No plan exists which has milestone id ", req.params.milestone_id);
         }
+    });
+});
+
+// Add new notification
+router.post('/notification', (req, res) => {
+    const newNotification = {
+        message: req.body.message,
+        belongsTo: req.body.belongsTo,
+        isRead: req.body.isRead,
+    }
+    Notification.create(newNotification, function (err, savedNotification) {
+        if (err) return res.json(err);
+        res.json(savedNotification);
     });
 });
 

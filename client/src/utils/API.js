@@ -93,5 +93,8 @@ export default {
     },
     getPlanByMilestoneId: function(milestone_id) {
         return axios.get(`/api/wp/plan/milestone/${milestone_id}`)
+    },
+    newNotification: function(postData) {
+        return axios.post("/api/wp/notification", postData);
     }
 };
