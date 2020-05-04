@@ -124,24 +124,26 @@ router.put('/addPlanToUser/:email', (req, res) => {
 
 // get all current plans of user with requested email id
 router.get('/getCurrentPlans', (req, res) => {
-  User.findOne({ email: req.user.email }, (err, user) => {
-    if (err) {
-      console.log(err);
-    } 
-    else if(user) {
-      Plan.find({_id : {$in: user.plans}, status : {$nin: "Done"}}, (err, plans) => {
-        if (err) {
-          console.log(err);
-        } 
-        else {
-          res.json(plans);
-        }
-      });
-    }
-    else {
-      console.log("No user exists with email id");
-    }
-  });
+  if(req.user !== null) {
+    User.findOne({ email: req.user.email }, (err, user) => {
+      if (err) {
+        console.log(err);
+      } 
+      else if(user) {
+        Plan.find({_id : {$in: user.plans}, status : {$nin: "Done"}}, (err, plans) => {
+          if (err) {
+            console.log(err);
+          } 
+          else {
+            res.json(plans);
+          }
+        });
+      }
+      else {
+        console.log("No user exists with email id");
+      }
+    });
+  }
 })
 
 
