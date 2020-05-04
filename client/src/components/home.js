@@ -21,40 +21,53 @@ function Home(props) {
     useEffect(() => {
         // setting the planName state to null when home page is loaded so that the title bar shows Whatsplan instead of the plan name
         props.updateUser({ planName: null });
-        dispatch({ type: "initPlan", data: null });
-        dispatch({ type: "initTask", data: null });
-        dispatch({ type: "initMilestone", data: null });
-        if (state.currentUser) {
-            API.getRegisteredUsers().then(response => {
-                console.log("All registered users response:");
-                console.log(response);
-                // Removing the logged in user from the collaborators dropdown
-                var filteredResponse = response.data.filter((user) => {
-                    return user.email !== state.currentUser.email;
-                })
-                var userOptions = filteredResponse.map((user, index) => ({
-                    key: index,
-                    text: `${user.firstname} ${user.lastname} (${user.username})`,
-                    value: user.email,
-                }));
-                // Fetching all the current plans of the user
-                API.getCurrentPlans().then(response => {
-                    console.log("Current plans of user response: ", response);
-                    setCurrentPlansState({ currentPlans: response.data });
-                    setUsersState({ registeredUsers: userOptions });
-                })
-                    .catch(error => {
-                        console.log('Getting current plans error: ')
-                        console.log(error);
-                    })
-            })
-                .catch(error => {
-                    console.log('Getting registered users error: ')
-                    console.log(error);
-                })
+        dispatch({ type: "initPlan", data: {} });
+        dispatch({ type: "initTask", data: {} });
+        dispatch({ type: "initMilestone", data: {} });
+        if (state.currentUser.email) {
+            populateHome(state.currentUser);
+        }
+        else {
+            // there is no user saved in global store. Check if user exists in session, this can happen on page refresh
+            API.getUser().then(response => {
+                // check if user is logged in
+                if (response.data.user) {
+                    populateHome(response.data.user);
+                }
+            }).catch(error => {
+                console.log('get user error: ', error);
+            });
         }
     }, []);
-
+    function populateHome(user) {
+        API.getRegisteredUsers().then(response => {
+            console.log("All registered users response:");
+            console.log(response);
+            // Removing the logged in user from the collaborators dropdown
+            var filteredResponse = response.data.filter((filteruser) => {
+                return filteruser.email !== user.email;
+            })
+            var userOptions = filteredResponse.map((user, index) => ({
+                key: index,
+                text: `${user.firstname} ${user.lastname} (${user.username})`,
+                value: user.email,
+            }));
+            // Fetching all the current plans of the user
+            API.getCurrentPlans().then(response => {
+                console.log("Current plans of user response: ", response);
+                setCurrentPlansState({ currentPlans: response.data });
+                setUsersState({ registeredUsers: userOptions });
+            })
+                .catch(error => {
+                    console.log('Getting current plans error: ')
+                    console.log(error);
+                })
+        })
+        .catch(error => {
+            console.log('Getting registered users error: ')
+            console.log(error);
+        })
+    }
     function handleFormSubmit(event) {
         event.preventDefault();
         var planMembers = newPlanState.members;
@@ -101,7 +114,7 @@ function Home(props) {
         history.push(`/plan/${plan._id}`);
     }
     return (
-        state.currentUser ?
+        state.currentUser.email ?
             <div className="columns" style={{ marginBottom: "30px", overflow: "visible" }}>
                 <br />
                 <div style={{ marginRight: "10px" }} className="panel col-4 col-xs-12 col-sm-12 col-ml-auto">
