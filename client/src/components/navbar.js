@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
 import API from "../utils/API";
@@ -7,16 +7,32 @@ import { usePlanContext } from "../utils/GlobalState";
 
 function Navbar(props) {
     const [state, dispatch] = usePlanContext();
+    useEffect(() => {
+        if(!state.currentUser.email) {
+            // there is no user in store, check in session. It can happen on page refresh
+            API.getUser().then(response => {
+                // check if user is logged in
+                if (response.data.user) {
+                    dispatch({ type: "initUser", data: response.data.user });
+                }
+                else {
+                    dispatch({ type: "initUser", data: {} });
+                }
+            }).catch(error => {
+                console.log('get user error: ', error);
+            });
+        }
+    }, [])
     function logout(event) {
         event.preventDefault();
         console.log('logging out');
         API.logoutUser().then(response => {
             console.log(response.data);
             if (response.status === 200) {
-                dispatch({ type: "initUser", data: null });
-                dispatch({ type: "initPlan", data: null });
-                dispatch({ type: "initMilestone", data: null });
-                dispatch({ type: "initTask", data: null });
+                dispatch({ type: "initUser", data: {} });
+                dispatch({ type: "initPlan", data: {} });
+                dispatch({ type: "initMilestone", data: {} });
+                dispatch({ type: "initTask", data: {} });
                 props.updateUser({
                     loggedIn: false,
                     username: null,
@@ -37,10 +53,10 @@ function Navbar(props) {
     }
     return (
         <div>
-            {state.currentTask && state.currentMilestone ? (
+            {state.currentTask.taskName && state.currentMilestone.milestoneName ? (
                 <header className="navbar App-header" id="nav-container">
                 <section className="navbar-center">
-                <h3 className="App-title">{props.planName} > {state.currentMilestone.milestoneName}</h3>
+                <h3 className="App-title">{state.currentPlan.title} > {state.currentMilestone.milestoneName}</h3>
                 </section>
                 <section className="navbar-section">
                     <Link to="/dashboard" className="btn btn-link text-secondary">
@@ -65,10 +81,10 @@ function Navbar(props) {
             </header>
             )
             : 
-            props.planName ? (
+            state.currentPlan.title ? (
                 <header className="navbar App-header" id="nav-container">
                     <section className="navbar-center">
-                        <h3 className="App-title">{props.planName}</h3>
+                        <h3 className="App-title">{state.currentPlan.title}</h3>
                     </section>
                     <section className="navbar-section">
                         <Link to="/dashboard" className="btn btn-link text-secondary">
@@ -96,7 +112,7 @@ function Navbar(props) {
                         <section className="navbar-center">
                             <h3 className="App-title">Whatsplan</h3>
                         </section>
-                        {props.loggedIn ? (
+                        {state.currentUser.email ? (
                             <section className="navbar-section">
                                 <Link to="/dashboard" className="btn btn-link text-secondary">
                                     <span className="text-secondary"><i className="fas fa-chart-bar"></i></span>
