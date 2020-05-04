@@ -26,7 +26,17 @@ As a user, I want to be able to do the following to effectively plan an event or
 * CSS Framework – Semantic React, Spectre.css
 * Other libraries – Moment.js, react-router-dom, react-datepicker etc.
 
-## Author - Ananya Pramanik
+## Application Screenshots
+![screenshot 1](https://github.com/ananya92/My-Portfolio/blob/master/src/components/projects/img/pr0_3.JPG)
+***
+![screenshot 2](https://github.com/ananya92/My-Portfolio/blob/master/src/components/projects/img/pr0_1.JPG)
+***
+![screenshot 3](https://github.com/ananya92/My-Portfolio/blob/master/src/components/projects/img/pr0_2.JPG)
+***
 
-## Deployed application - https://whatsplan.herokuapp.com/
+## Author - 
+Ananya Pramanik
+
+## Deployed application - 
+https://whatsplan.herokuapp.com/
 
