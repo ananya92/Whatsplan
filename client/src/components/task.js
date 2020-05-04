@@ -25,7 +25,6 @@ function Task(props) {
     });
     useEffect(() => {
         API.getTask(props.taskId).then(response => {
-            console.log("Got task:", response);
             setTaskState({ task: response.data });
 
             // Determining the progress bar
@@ -64,7 +63,6 @@ function Task(props) {
                     break;
             }
             API.getUserById(response.data.asignee).then(response1 => {
-                console.log("Got user:", response1);
                 setTaskAsigneeState({ asigneeName: response1.data.firstname + " " + response1.data.lastname })
             }).catch(error => {
                 console.log("Error while getting task by id: ", error);

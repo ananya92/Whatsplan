@@ -73,7 +73,6 @@ function TaskInfo(props) {
     useEffect(() => {
         if(state.currentTask._id) {
             API.getCommentsByTaskId(state.currentTask._id).then(response => {
-                console.log("Got the comments:", response.data);
                 setCommentsState({ comments: response.data });
             }).catch(error => {
                 console.log("Error while getting comment by id: ", error);
@@ -102,7 +101,6 @@ function TaskInfo(props) {
                             setCurrentPlan({ ...currentPlan, plan: response3.data });
                             // setting the task asignee name
                             setTaskAsignee(response1.data.asignee);
-
                             setTaskState({
                                 ...taskState,
                                 taskVal: response1.data.taskName,
@@ -304,7 +302,7 @@ function TaskInfo(props) {
                                     <div className="columns">
                                         <div className="statusDropdown col-6">
                                             <Dropdown
-                                                defaultValue={taskState.statusVal}
+                                                placeholder={taskState.statusVal}
                                                 fluid
                                                 selection
                                                 options={[{ key: "Pending", text: "Pending", value: "Pending" },
