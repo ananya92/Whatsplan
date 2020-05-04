@@ -7,15 +7,20 @@ import API from "../utils/API";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 import Comment from "./comment";
+import { withRouter } from "react-router";
+import history from "../utils/history";
 
-function TaskInfo() {
+function TaskInfo(props) {
     const [state, dispatch] = usePlanContext();
     const commentRef = useRef();
     const [taskState, setTaskState] = useState({
-        taskVal: state.currentTask.taskName,
-        descVal: state.currentTask.description,
-        statusVal: state.currentTask.status,
-        infoMsg: ""
+        taskVal: "",
+        descVal: "",
+        statusVal: "",
+        asignee: "",
+        asigneeName: "",
+        infoMsg: "",
+        errMsg: ""
     });
     const [assignedState, setAssignedState] = useState({
         name: "",
@@ -28,14 +33,128 @@ function TaskInfo() {
     const [commentsState, setCommentsState] = useState({
         comments: []
     });
-    const [startDate, setStartDate] = useState(state.currentTask.startDate ?
-        new Date(state.currentTask.startDate) : null);
-    const [endDate, setEndDate] = useState(state.currentTask.endDate ?
-        new Date(state.currentTask.endDate) : null);
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
 
+    const [currentUser, setCurrentUser] = useState({
+        user: {}
+    });
+    const [currentPlan, setCurrentPlan] = useState({
+        plan: {}
+    });
     //Get the deafult asignee and asignee dropdown options on component load
     useEffect(() => {
-        API.getUserById(state.currentTask.asignee).then(response => {
+        console.log(props.match.params.id);
+        // check if the global store has current user saved or not, if not then check in session. Global store can be lost if page is refreshed
+        if (!state.currentUser.email) {
+            API.getUser().then(response => {
+                // check if user is logged in
+                if (response.data.user) {
+                    // user is logged in, check if the user is a member of the plan or not; only members can view the task
+                    setCurrentUser({ user: response.data.user });
+                    checkUserHasAccessToTask(response.data.user);
+                }
+                else {
+                    //user is not logged in, redirect to login page
+                    history.push("/login");
+                }
+            }).catch(error => {
+                console.log('get user error: ', error);
+            });
+        }
+        else {
+            // global store has a current user
+            setCurrentUser({ user: state.currentUser });
+            checkUserHasAccessToTask(state.currentUser);
+        }
+
+    }, [state.currentUser]);
+    // Fetch all the comments of the task from databse whenever new comment is added
+    useEffect(() => {
+        if(state.currentTask._id) {
+            API.getCommentsByTaskId(state.currentTask._id).then(response => {
+                console.log("Got the comments:", response.data);
+                setCommentsState({ comments: response.data });
+            }).catch(error => {
+                console.log("Error while getting comment by id: ", error);
+            });
+        }
+    }, [state.currentTask.comments]);
+
+    function checkUserHasAccessToTask(user) {
+        API.getTask(props.match.params.id).then(response1 => {
+            if (response1.data.taskName) {
+                API.getMilestoneByTaskId(response1.data._id).then(response2 => {
+                    API.getPlanByMilestoneId(response2.data._id).then(response3 => {
+                        let isMember = false;
+                        for (var i = 0; i < response3.data.members.length; i++) {
+                            // get the plan.check if the logged in user is a part of the plan's members
+                            if (response3.data.members[i] === user.email) {
+                                isMember = true;
+                                break;
+                            }
+                        }
+                        if (isMember) {
+                            // the logged in user is a member of the plan
+                            dispatch({ type: "initTask", data: response1.data });
+                            dispatch({ type: "initMilestone", data: response2.data });
+                            dispatch({ type: "initPlan", data: response3.data });
+                            setCurrentPlan({ ...currentPlan, plan: response3.data });
+                            // setting the task asignee name
+                            setTaskAsignee(response1.data.asignee);
+
+                            setTaskState({
+                                ...taskState,
+                                taskVal: response1.data.taskName,
+                                descVal: response1.data.description,
+                                statusVal: response1.data.status,
+                                asignee: response1.data.asignee,
+                            });
+                            if(response1.data.startDate) {
+                                setStartDate(new Date(response1.data.startDate));
+                            }
+                            if(response1.data.endDate) {
+                                setEndDate(new Date(response1.data.endDate));
+                            }
+
+                            //setting assign dropdown options
+                            setAssignOptions(response3.data);
+                        }
+                        else {
+                            // the logged-in user is not a member of plan and doesn't have permission to view the plan details
+                            setTaskState({ ...taskState, errMsg: "Sorry! Only collaborators are allowed to view the task's details." });
+                        }
+
+                    }).catch(error => {
+                        console.log('get plan by milestone error: ', error);
+                    });
+                }).catch(error => {
+                    console.log('get milestone by task error: ', error);
+                });
+            }
+            else {
+                //task doesn't exist
+                setTaskState({ ...taskState, errMsg: "Sorry! Task doesn't exist." })
+            }
+        }).catch(error => {
+            console.log('get task error: ', error);
+        });
+    }
+    function handleStatusChange(event, data) {
+        event.preventDefault();
+        console.log("Selected:", data.value);
+        setTaskState({ ...taskState, statusVal: data.value });
+    }
+
+    // function to set the task's asignee state
+    function handleAssign(event, data) {
+        event.preventDefault();
+        console.log("Selected:", data.value);
+        setTaskAsignee(data.value);
+    }
+
+    function setTaskAsignee(asigneeId) {
+        API.getUserById(asigneeId).then(response => {
             setAssignedState({
                 asignee: response.data._id,
                 name: response.data.firstname + " " + response.data.lastname
@@ -43,7 +162,10 @@ function TaskInfo() {
         }).catch(error => {
             console.log("Error while getting user by id: ", error);
         });
-        state.currentPlan.members.map((memberEmail, index) => {
+    }
+
+    function setAssignOptions(plan) {
+        plan.members.map((memberEmail, index) => {
             API.getUserByEmail(memberEmail).then(response => {
                 // creating an option object for the assign to dropdown
                 var option = {
@@ -59,30 +181,7 @@ function TaskInfo() {
                 console.log("Error while getting user by email: ", error);
             });
         });
-    }, []);
-    // Fetch all the comments of the task from databse whenever new comment is added
-    useEffect(() => {
-        API.getCommentsByTaskId(state.currentTask._id).then(response => {
-            console.log("Got the comments:", response.data);
-            setCommentsState({ comments: response.data });
-        }).catch(error => {
-            console.log("Error while getting comment by id: ", error);
-        });
-    }, [state.currentTask.comments]);
-
-    function handleStatusChange(event, data) {
-        event.preventDefault();
-        console.log("Selected:", data.value);
-        setTaskState({ ...taskState, statusVal: data.value });
     }
-
-    // function to set the task's asignee state
-    function handleAssign(event, data) {
-        event.preventDefault();
-        console.log("Selected:", data.value);
-        setAssignedState({ ...assignedState, asignee: data.value });
-    }
-
     // function to post new comment
     function handleComment(event) {
         event.preventDefault();
@@ -90,7 +189,7 @@ function TaskInfo() {
             API.newComment({
                 comment: commentRef.current.value,
                 task: state.currentTask._id,
-                commentedBy: state.currentUser._id
+                commentedBy: currentUser.user._id
             }).then(function (response) {
                 console.log("Posted new comment:", response);
                 commentRef.current.value = "";
@@ -123,7 +222,8 @@ function TaskInfo() {
             })
             .then(response => {
                 console.log("Successfully updated task:", response);
-                setTaskState({ ...taskState, infoMsg: "Successfully updated" });
+                setTaskState({ ...taskState, infoMsg: "Successfully updated", asignee: response.data.asignee });
+                dispatch({ type: "initTask", data: response.data });
             })
             .catch(error => {
                 console.log('task update error: ', error);
@@ -132,7 +232,7 @@ function TaskInfo() {
 
     return (
         <div>
-            {state.currentTask && state.currentUser ? (
+            {taskState.taskName != "" ? (
                 <div style={{ marginBottom: "30px" }}>
                     <form className="form-horizontal" style={{ textAlign: "left" }} onSubmit={handleSubmit}>
                         <div className="form-group">
@@ -140,8 +240,8 @@ function TaskInfo() {
                                 <label className="form-label" htmlFor="taskname">Task name</label>
                             </div>
                             <div className="col-6 col-xs-8 col-sm-8 col-md-8 col-mr-auto">
-                                {(state.currentUser._id === state.currentTask.asignee ||
-                                    state.currentUser._id === state.currentPlan.owner)
+                                {(currentUser.user._id === taskState.asignee ||
+                                    currentUser.user._id === currentPlan.plan.owner)
                                     ?
                                     <input className="form-input"
                                         type="text"
@@ -150,7 +250,7 @@ function TaskInfo() {
                                         value={taskState.taskVal}
                                         onChange={(e) => { setTaskState({ ...taskState, taskVal: e.target.value }) }} />
                                     :
-                                    <p>{state.currentTask.taskName}</p>}
+                                    <p>{taskState.taskVal}</p>}
                             </div>
                         </div>
                         <div className="form-group">
@@ -158,8 +258,8 @@ function TaskInfo() {
                                 <label className="form-label" htmlFor="desc">Description</label>
                             </div>
                             <div className="col-6 col-xs-8 col-sm-8 col-md-8 col-mr-auto">
-                                {state.currentUser._id === state.currentTask.asignee ||
-                                    state.currentUser._id === state.currentPlan.owner
+                                {(currentUser.user._id === taskState.asignee ||
+                                    currentUser.user._id === currentPlan.plan.owner)
                                     ?
                                     <textarea className="form-input"
                                         type="text"
@@ -169,7 +269,7 @@ function TaskInfo() {
                                         value={taskState.descVal}
                                         onChange={(e) => { setTaskState({ ...taskState, descVal: e.target.value }) }} />
                                     :
-                                    <p>{state.currentTask.description}</p>}
+                                    <p>{taskState.descVal}</p>}
                             </div>
                         </div>
                         <div className="form-group">
@@ -177,8 +277,8 @@ function TaskInfo() {
                                 <label className="form-label">Assignee</label>
                             </div>
                             <div className="col-6 col-xs-8 col-sm-8 col-md-8 col-mr-auto">
-                                {state.currentUser._id === state.currentTask.asignee ||
-                                    state.currentUser._id === state.currentPlan.owner ?
+                                {(currentUser.user._id === taskState.asignee ||
+                                    currentUser.user._id === currentPlan.plan.owner) ?
                                     <div className="columns">
                                         <div className="statusDropdown col-6">
                                             <Dropdown
@@ -199,8 +299,8 @@ function TaskInfo() {
                                 <label className="form-label">Status</label>
                             </div>
                             <div className="col-6 col-xs-8 col-sm-8 col-md-8 col-mr-auto">
-                                {state.currentUser._id === state.currentTask.asignee ||
-                                    state.currentUser._id === state.currentPlan.owner ?
+                                {(currentUser.user._id === taskState.asignee ||
+                                    currentUser.user._id === currentPlan.plan.owner) ?
                                     <div className="columns">
                                         <div className="statusDropdown col-6">
                                             <Dropdown
@@ -216,7 +316,7 @@ function TaskInfo() {
                                             />
                                         </div>
                                     </div> :
-                                    <p>{state.currentTask.status}</p>}
+                                    <p>{taskState.statusVal}</p>}
                             </div>
                         </div>
                         <div className="form-group">
@@ -224,8 +324,8 @@ function TaskInfo() {
                                 <label className="form-label">Start Date</label>
                             </div>
                             <div className="calendar col-6 col-xs-8 col-sm-8 col-md-8 col-mr-auto">
-                                {state.currentUser._id === state.currentTask.asignee ||
-                                    state.currentUser._id === state.currentPlan.owner ?
+                                {(currentUser.user._id === taskState.asignee ||
+                                    currentUser.user._id === currentPlan.plan.owner) ?
                                     <DatePicker
                                         selected={startDate}
                                         onChange={date => setStartDate(date)}
@@ -243,8 +343,8 @@ function TaskInfo() {
                                 <label className="form-label">End Date</label>
                             </div>
                             <div className="calendar col-6 col-xs-8 col-sm-8 col-md-8 col-mr-auto">
-                                {state.currentUser._id === state.currentTask.asignee ||
-                                    state.currentUser._id === state.currentPlan.owner ?
+                                {(currentUser.user._id === taskState.asignee ||
+                                    currentUser.user._id === currentPlan.plan.owner) ?
                                     <DatePicker
                                         selected={endDate}
                                         onChange={date => setEndDate(date)}
@@ -258,8 +358,8 @@ function TaskInfo() {
                                         <p>{moment(state.currentTask.endDate).format('MM/DD/YYYY')}</p> : <p>-</p>}
                             </div>
                         </div>
-                        {state.currentUser._id === state.currentTask.asignee ||
-                            state.currentUser._id === state.currentPlan.owner ?
+                        {(currentUser.user._id === taskState.asignee ||
+                            currentUser.user._id === currentPlan.plan.owner) ?
                             <div className="form-group ">
                                 <div className="col-3 col-xs-4 col-sm-4 col-ml-auto"></div>
                                 <div className="col-6 col-xs-8 col-sm-8 col-md-8 col-mr-auto">
@@ -297,11 +397,11 @@ function TaskInfo() {
                         </div>
                     </form>
                 </div>) :
-                <Redirect to={{ pathname: "/" }} />
+                (taskState.errMsg != "") ?
+                    <h4>{taskState.errMsg}</h4> : <br />
             }
-
         </div>
     )
 }
 
-export default TaskInfo;
+export default withRouter(TaskInfo);
