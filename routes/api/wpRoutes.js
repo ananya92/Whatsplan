@@ -219,5 +219,23 @@ router.get("/getCommentsByTaskId/:task_id", (req, res) => {
     })
 });
 
+//Get plan by milestone ID
+router.get('/plan/milestone/:milestone_id', (req, res) => {
+    console.log("Reached here");
+    Plan.findOne({ milestones : req.params.milestone_id }, (err, plan) => {
+        if (err) {
+            console.log(err);
+        }
+        else if (plan) {
+            console.log("Found plan");
+            console.log(plan);
+            res.json(plan);
+        }
+        else {
+            console.log("No plan exists which has milestone id ", req.params.milestone_id);
+        }
+    });
+});
+
 module.exports = router;
 
