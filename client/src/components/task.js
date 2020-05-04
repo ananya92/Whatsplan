@@ -5,6 +5,7 @@ import { usePlanContext } from "../utils/GlobalState";
 import history from "../utils/history";
 import { Progress } from 'semantic-ui-react';
 import moment from 'moment';
+import { withRouter } from "react-router";
 
 function Task(props) {
     const [state, dispatch] = usePlanContext();
@@ -79,7 +80,7 @@ function Task(props) {
         API.getMilestoneByTaskId(taskState.task._id).then(function (response) {
             dispatch({ type: "initMilestone", data: response.data });
             dispatch({ type: "initTask", data: taskState.task });
-            history.push("/taskInfo");
+            history.push(`/taskInfo/${taskState.task._id}`);
         })
             .catch(error => {
                 console.log("Error while getting task by id: ", error);
@@ -123,4 +124,4 @@ function Task(props) {
     )
 }
 
-export default Task;
+export default withRouter(Task);
