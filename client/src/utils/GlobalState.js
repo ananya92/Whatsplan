@@ -23,7 +23,7 @@ const reducer = (state, action) => {
 
 const PlanContextProvider = ({ value = {}, ...props }) => {
     // Creating global store using useReducer hook. 
-    const [state, dispatch] = useReducer(reducer, { currentPlan: value, currentTask: value });
+    const [state, dispatch] = useReducer(reducer, { currentPlan: value, currentTask: value, currentUser: value, currentMilestone: value });
 
     return <Provider value={[state, dispatch]} {...props} />;
 };
