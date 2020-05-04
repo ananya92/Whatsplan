@@ -13,43 +13,47 @@ function Plan(props) {
     const [currentPlan, setCurrentPlan] = useState({
         plan: {},
         errMsg: ""
-    })
+    });
     const milestoneRef = useRef();
     // on loading plan page, I am no longer looking at a particular task or milestone hence setting the initTask to null
     useEffect(() => {
-        dispatch({ type: "initTask", data: null });
-        dispatch({ type: "initMilestone", data:  null});
-        console.log(props.match.params.id);
+        dispatch({ type: "initTask", data: {} });
+        dispatch({ type: "initMilestone", data:  {}});
         API.getUser().then(response1 => {
             // check if user is logged in
             if(response1.data.user) {
                 // user is logged in, check if the user is a member of the plan or not; only members can view the plan
                 API.getPlan(props.match.params.id).then(response => {
                     let isMember = false;
-                    for(var i=0; i<response.data.members.length; i++) {
-                        if(response.data.members[i] === response1.data.user.email) {
-                            isMember = true;
-                            break;
+                    if(response.data.title) {
+                        for(var i=0; i<response.data.members.length; i++) {
+                            if(response.data.members[i] === response1.data.user.email) {
+                                isMember = true;
+                                break;
+                            }
+                        }
+                        if(isMember) {
+                            // the logged in user is a member of the plan
+                            dispatch({ type: "initPlan", data: response.data});
+                            setCurrentPlan({...currentPlan, plan: response.data});
+                        }
+                        else {
+                            // the logged-in user is not a member of plan and doesn't have permission to view the plan details
+                            setCurrentPlan({...currentPlan, errMsg: "Sorry! Only collaborators are allowed to view the plan's details."});
                         }
                     }
-                    console.log(isMember);
-                    if(isMember) {
-                        // the logged in user is a member of the plan
-                        dispatch({ type: "initPlan", data: response.data});
-                        setCurrentPlan({...currentPlan, plan: response.data});
-                    }
                     else {
-                        // the logged-in user is not a member of plan and doesn't have permission to view the plan details
-                        setCurrentPlan({...currentPlan, errMsg: "Sorry! Only collaborators are allowed to view the plan's details."});
+                        // the id doesn't exist
+                        setCurrentPlan({...currentPlan, errMsg: "Sorry! Plan doesn't exist."});
                     }
                     
                 }).catch(error => {
-                    console.log('get plan error: ', error);
+                    console.log('Get plan error: ', error);
                 });
             }
             else {
                 //user is not logged in, redirect to login page
-                history.push("/");
+                history.push("/login");
             }
         })
     }, [state.currentUser]);
