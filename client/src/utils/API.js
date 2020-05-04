@@ -73,7 +73,7 @@ export default {
         })
     },
     getMilestoneByTaskId: function(taskId) {
-        return axios.get(`/api/wp/milestone/task/${taskId}`)
+        return axios.get(`/api/wp/milestone/task/${taskId}`);
     },
     updateTask: function(id, postData) {
         return axios.put(`/api/wp/task/${id}`, postData);
@@ -86,9 +86,12 @@ export default {
         {
             task_id: task_id,
             comment_id: comment_id
-        })
+        });
     },
     getCommentsByTaskId: function(task_id) {
-        return axios.get(`/api/wp/getCommentsByTaskId/${task_id}`)
+        return axios.get(`/api/wp/getCommentsByTaskId/${task_id}`);
+    },
+    getPlanByMilestoneId: function(milestone_id) {
+        return axios.get(`/api/wp/plan/milestone/${milestone_id}`)
     }
 };
