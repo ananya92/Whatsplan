@@ -96,5 +96,14 @@ export default {
     },
     newNotification: function(postData) {
         return axios.post("/api/wp/notification", postData);
+    },
+    getNotifications: function() {
+        return axios.get(`/api/wp/notifications`);
+    },
+    markNotificationsRead: function() {
+        return axios.put(`/api/wp/notifications`);
+    },
+    clearNotifications: function() {
+        return axios.delete(`/api/wp/notifications`);
     }
 };

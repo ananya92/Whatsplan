@@ -80,7 +80,7 @@ router.get('/milestone/:id', (req, res) => {
 //Get milestone by task ID
 router.get('/milestone/task/:taskId', (req, res) => {
     console.log("Reached here");
-    Milestone.findOne({ tasks : req.params.taskId }, (err, milestone) => {
+    Milestone.findOne({ tasks: req.params.taskId }, (err, milestone) => {
         if (err) {
             console.log(err);
         }
@@ -141,14 +141,16 @@ router.get('/task/:id', (req, res) => {
 // Update task by ID
 router.put('/task/:id', (req, res) => {
     console.log("reached in put", req.params.id, req.body);
-    if(mongoose.Types.ObjectId.isValid(req.params.id)) {
-        Task.findOneAndUpdate({_id: req.params.id}, 
-            {taskName: req.body.taskName,
-            description: req.body.description,
-            status: req.body.status,
-            asignee: req.body.asignee,
-            startDate: req.body.startDate,
-            endDate: req.body.endDate}, {new: true}, (err, task) => {
+    if (mongoose.Types.ObjectId.isValid(req.params.id)) {
+        Task.findOneAndUpdate({ _id: req.params.id },
+            {
+                taskName: req.body.taskName,
+                description: req.body.description,
+                status: req.body.status,
+                asignee: req.body.asignee,
+                startDate: req.body.startDate,
+                endDate: req.body.endDate
+            }, { new: true }, (err, task) => {
                 if (err) {
                     console.log(err);
                 }
@@ -158,7 +160,7 @@ router.put('/task/:id', (req, res) => {
                 else {
                     console.log("No task exists with id ", req.params.id);
                 }
-        });
+            });
     }
     else {
         console.log("Invalid id:", req.params.id);
@@ -180,7 +182,7 @@ router.post('/comment', (req, res) => {
 
 // Add the comment ID to the task
 router.put('/addCommentToTask', (req, res) => {
-    Task.findOneAndUpdate({ _id: req.body.task_id }, { $push: { comments: req.body.comment_id } }, {new: true}, (err, task) => {
+    Task.findOneAndUpdate({ _id: req.body.task_id }, { $push: { comments: req.body.comment_id } }, { new: true }, (err, task) => {
         if (err) {
             console.log(err);
         }
@@ -196,13 +198,13 @@ router.put('/addCommentToTask', (req, res) => {
 // get comments by ids
 router.get("/getCommentsByTaskId/:task_id", (req, res) => {
     console.log("Reached in comments: ", req.params.task_id);
-    Task.findOne({_id : req.params.task_id}, (err, task) => {
+    Task.findOne({ _id: req.params.task_id }, (err, task) => {
         if (err) {
             console.log(err);
         }
         else if (task) {
             console.log(task);
-            Comment.find({_id : {$in: task.comments}}, (err, result) => {
+            Comment.find({ _id: { $in: task.comments } }, (err, result) => {
                 if (err) {
                     console.log(err);
                 }
@@ -224,7 +226,7 @@ router.get("/getCommentsByTaskId/:task_id", (req, res) => {
 //Get plan by milestone ID
 router.get('/plan/milestone/:milestone_id', (req, res) => {
     console.log("Reached here");
-    Plan.findOne({ milestones : req.params.milestone_id }, (err, plan) => {
+    Plan.findOne({ milestones: req.params.milestone_id }, (err, plan) => {
         if (err) {
             console.log(err);
         }
@@ -241,15 +243,68 @@ router.get('/plan/milestone/:milestone_id', (req, res) => {
 
 // Add new notification
 router.post('/notification', (req, res) => {
+    console.log("Reached here");
     const newNotification = {
         message: req.body.message,
         belongsTo: req.body.belongsTo,
         isRead: req.body.isRead,
+        taskId: req.body.taskId
     }
     Notification.create(newNotification, function (err, savedNotification) {
         if (err) return res.json(err);
         res.json(savedNotification);
     });
+});
+
+//Get all notifications of current user
+router.get('/notifications', (req, res) => {
+    if (req.user !== null) {
+        Notification.find({ belongsTo: req.user._id }, (err, notifications) => {
+            if (err) {
+                console.log(err);
+            }
+            else if (notifications) {
+                res.json(notifications);
+            }
+            else {
+                console.log("No notifications exist for user id ", req.user._id);
+            }
+        });
+    }
+});
+
+//Mark all unread notifications of current user as read
+router.put('/notifications', (req, res) => {
+    if (req.user !== null) {
+        Notification.update({ belongsTo: req.user._id, isRead: false }, { isRead: true }, (err, notifications) => {
+            if (err) {
+                console.log(err);
+            }
+            else if (notifications) {
+                res.json(notifications);
+            }
+            else {
+                console.log("No notifications exist for user id ", req.user._id);
+            }
+        });
+    }
+});
+
+//Clear notifications
+router.delete('/notifications', (req, res) => {
+    if (req.user !== null) {
+        Notification.deleteMany({ belongsTo: req.user._id }, (err, notifications) => {
+            if (err) {
+                console.log(err);
+            }
+            else if (notifications) {
+                res.json(notifications);
+            }
+            else {
+                console.log("No notifications exist for user id ", req.user._id);
+            }
+        });
+    }
 });
 
 module.exports = router;
