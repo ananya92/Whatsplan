@@ -96,7 +96,7 @@ function Task(props) {
                             <Table.Cell width={5}>{taskAsigneeState.asigneeName}</Table.Cell>
                             <Table.Cell width={3} className={colorState.color}>{taskState.task.status}</Table.Cell>
                             {taskState.task.status === "Done" ?
-                                <Table.Cell width={3}>
+                                <Table.Cell className="noMarginCell" width={3}>
                                     <Progress percent={progressState.percentage} progress color='green'/>
                                 </Table.Cell>
                                 :
