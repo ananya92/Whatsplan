@@ -28,7 +28,7 @@ function Task(props) {
             setTaskState({ task: response.data });
 
             // Determining the progress bar
-            if (response.data.startDate) {
+            if (response.data.startDate && response.data.endDate) {
                 var start = moment(response.data.startDate);
                 var now = moment();
                 var end = moment(response.data.endDate);
@@ -41,7 +41,7 @@ function Task(props) {
                     setProgressState({ ...progressState, percentage: 100 });
                 }
                 else {
-                    var percentageProgress = Math.floor((passedDays / totalDays) * 100);
+                    var percentageProgress = ((passedDays / totalDays) * 100);
                     var remainingDays = totalDays - passedDays;
                     setProgressState({ ...progressState, percentage: percentageProgress, text: `${remainingDays} days left` });
                 }
@@ -102,16 +102,16 @@ function Task(props) {
                                 :
                                 progressState.overdue ?
                                     <Table.Cell width={3}>
-                                        <Progress percent={progressState.percentage} progress color='orange' label={progressState.text} />
+                                        <Progress percent={Math.floor(progressState.percentage)} progress color='orange' label={progressState.text} />
                                     </Table.Cell>
                                     :
-                                    progressState.percentage === 0 ?
+                                    progressState.text === "" ?
                                         <Table.Cell className="noMarginCell" width={3}>
                                             <Progress percent={progressState.percentage} progress color={colorState.color} />
                                         </Table.Cell>
                                         :
                                         <Table.Cell width={3}>
-                                            <Progress percent={progressState.percentage} progress color={colorState.color} label={progressState.text} />
+                                            <Progress percent={Math.floor(progressState.percentage)} progress color={colorState.color} label={progressState.text} />
                                         </Table.Cell>
                             }
                         </Table.Row>
