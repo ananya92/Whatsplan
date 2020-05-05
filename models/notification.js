@@ -6,6 +6,7 @@ const notificationSchema = new Schema({
   message: { type: String, required: true },
   belongsTo: { type: Schema.Types.ObjectId, required: true},
   isRead: { type: Boolean, required: true},
+  taskId: { type: Schema.Types.ObjectId, required: true }
 });
 
 const Notification = mongoose.model('Notification', notificationSchema);
