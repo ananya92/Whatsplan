@@ -68,7 +68,7 @@ function TaskInfo(props) {
             checkUserHasAccessToTask(state.currentUser);
         }
 
-    }, [state.currentUser]);
+    }, [state.currentUser, props.match.params.id]);
     // Fetch all the comments of the task from databse whenever new comment is added
     useEffect(() => {
         if(state.currentTask._id) {
@@ -190,6 +190,17 @@ function TaskInfo(props) {
                 commentedBy: currentUser.user._id
             }).then(function (response) {
                 console.log("Posted new comment:", response);
+                // Send notification to task asignee if some other user comments on their task
+                if(state.currentTask.asignee !== currentUser.user._id) {
+                    API.newNotification({
+                        message: `${currentUser.user.firstname} ${currentUser.user.lastname} commented on your task - ${state.currentTask.taskName}`,
+                        belongsTo: state.currentTask.asignee,
+                        isRead: false,
+                        taskId: state.currentTask._id
+                    }).then(response => {
+                        console.log("Created new notification", response);
+                    });
+                }
                 commentRef.current.value = "";
                 // Add the new comment id to the task in database and save the task back to the global store
                 API.addCommentToTask(response.data._id, state.currentTask._id).then(function (response1) {
@@ -219,6 +230,17 @@ function TaskInfo(props) {
                 endDate: endDate
             })
             .then(response => {
+                // Send notification to asignee if asignee is changed
+                if(taskState.asignee !== response.data.asignee) {
+                    API.newNotification({
+                        message: `You have been assigned a new task - ${response.data.taskName}`,
+                        belongsTo: response.data.asignee,
+                        isRead: false,
+                        taskId: response.data._id
+                    }).then(response => {
+                        console.log("Created new notification", response);
+                    });
+                }
                 console.log("Successfully updated task:", response);
                 setTaskState({ ...taskState, infoMsg: "Successfully updated", asignee: response.data.asignee });
                 dispatch({ type: "initTask", data: response.data });
