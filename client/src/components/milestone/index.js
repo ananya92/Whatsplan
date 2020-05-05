@@ -68,6 +68,15 @@ function Milestone(props) {
                 taskRef.current.value = "";
                 descRef.current.value = "";
                 console.log('successfully created new task: ', response);
+                //Create notification for the task asignee
+                API.newNotification({
+                    message: `You have been assigned a new task - ${response.data.taskName}`,
+                    belongsTo: response.data.asignee,
+                    isRead: false,
+                    taskId: response.data._id
+                }).then(response => {
+                    console.log("Created new notification", response);
+                });
                 // Add the created task to the plan
                 API.addTaskToMilestone(milestoneState.milestone._id, response.data._id)
                     .then(response1 => {
