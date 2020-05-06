@@ -114,24 +114,24 @@ function Navbar(props) {
                             <span className="text-secondary"><i className="fas fa-chart-bar"></i></span>
                         </Link>
                         <Link to="#" className="btn btn-link text-secondary">
-                                <Dropdown text={
-                                    <span>
-                                        <i class="far fa-bell" />
-                                        {notificationState.unreadCount > 0 ?
-                                            <span className="unreadStyle p-relative s-circle">{notificationState.unreadCount}</span>
-                                            : <span></span>}
-                                    </span>} onClick={handleNotification}>
-                                    <Dropdown.Menu style={{ left: 'auto', right: 0, paddingTop: "5px" }}>
-                                        {notificationState.notifications.map(notification => (
-                                            <div className="notificationStyle">
-                                                <Dropdown.Item text={notification.message} onClick={() => history.push(`/taskInfo/${notification.taskId}`)} />
-                                                <Dropdown.Divider></Dropdown.Divider>
-                                            </div>
-                                        ))}
-                                        <Dropdown.Item className="clearStyle" text={<span><i class="fas fa-trash"></i> Clear all</span>} onClick={handleClear} />
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                            </Link>
+                            <Dropdown text={
+                                <span>
+                                    <i class="far fa-bell" />
+                                    {notificationState.unreadCount > 0 ?
+                                        <span className="unreadStyle p-relative s-circle">{notificationState.unreadCount}</span>
+                                        : <span></span>}
+                                </span>} onClick={handleNotification}>
+                                <Dropdown.Menu style={{ left: 'auto', right: 0, paddingTop: "5px" }}>
+                                    {notificationState.notifications.map(notification => (
+                                        <div className="notificationStyle">
+                                            <Dropdown.Item text={notification.message} onClick={() => history.push(`/taskInfo/${notification.taskId}`)} />
+                                            <Dropdown.Divider></Dropdown.Divider>
+                                        </div>
+                                    ))}
+                                    <Dropdown.Item className="clearStyle" text={<span><i class="fas fa-trash"></i> Clear all</span>} onClick={handleClear} />
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </Link>
                         <Link to="#" className="btn btn-link text-secondary">
                             <Dropdown text={<i class="far fa-user" />} onClick={handleClick}>
                                 <Dropdown.Menu style={{ left: 'auto', right: 0 }}>
@@ -227,6 +227,9 @@ function Navbar(props) {
                                                 <Dropdown.Item text='Logout' onClick={logout} />
                                             </Dropdown.Menu>
                                         </Dropdown>
+                                    </Link>
+                                    <Link to="/" className="btn btn-link text-secondary">
+                                        <span className="text-secondary"><i className="fas fa-home"></i></span>
                                     </Link>
                                 </section>
                             ) : (
