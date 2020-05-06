@@ -101,7 +101,8 @@ router.post('/task', (req, res) => {
         taskName: req.body.taskName,
         description: req.body.description,
         status: req.body.status,
-        asignee: req.body.asignee
+        asignee: req.body.asignee,
+        planId: req.body.planId
     }
     Task.create(newTask, function (err, savedTask) {
         if (err) return res.json(err);
@@ -305,6 +306,37 @@ router.delete('/notifications', (req, res) => {
             }
         });
     }
+});
+
+//Get tasks by plan ID
+router.get('/tasks/:planId', (req, res) => {
+    console.log("Reached here");
+    Task.find({ planId: req.params.planId }, (err, tasks) => {
+        if (err) {
+            console.log(err);
+        }
+        else if (tasks) {
+            res.json(tasks);
+        }
+        else {
+            console.log("No tasks with plan id ", req.params.planId);
+        }
+    });
+});
+
+router.put('/taskByPlanId', (req, res) => {
+    console.log("Reached inside taskByPlanId");
+    Task.findOneAndUpdate({ _id: req.body.taskId }, { planId: req.body.planId }, { new: true }, (err, task) => {
+        if (err) {
+            console.log(err);
+        }
+        else if (task) {
+            res.json(task);
+        }
+        else {
+            console.log("No task exists with id ", req.body.task_id);
+        }
+    });
 });
 
 module.exports = router;
