@@ -8,7 +8,8 @@ const taskSchema = new Schema({
   status: { type: String, required: true},
   startDate: { type: String},
   endDate: { type: String},
-  comments: [Schema.Types.ObjectId]
+  comments: [Schema.Types.ObjectId],
+  planId: Schema.Types.ObjectId
 });
 
 const Task = mongoose.model("Task", taskSchema);
