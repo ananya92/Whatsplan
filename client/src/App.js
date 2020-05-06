@@ -8,6 +8,7 @@ import Navbar from './components/navbar';
 import Home from './components/home';
 import Plan from "./components/plan";
 import TaskInfo from "./components/taskInfo";
+import Dashboard from "./components/dashboard";
 import API from './utils/API';
 import "./App.css";
 import { PlanContextProvider } from "./utils/GlobalState";
@@ -87,6 +88,11 @@ class App extends Component {
           path="/signup"
           render={() =>
             <Signup />}
+        />
+        <Route
+          path="/dashboard"
+          render={() =>
+          <Dashboard/>}
         />
         <Route
           path="/plan/:id"
