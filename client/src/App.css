@@ -215,8 +215,5 @@ summary, .accordian-body {
 
 .chartStyle {
  margin: 10px auto;
+ overflow: hidden;
 }
-
- #reactgooglegraph-2, #reactgooglegraph-1 {
-  border: 1px solid #c9c7c7 !important;
- }
