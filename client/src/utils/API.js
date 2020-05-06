@@ -108,11 +108,5 @@ export default {
     },
     getTasksByPlanId: function(planId) {
         return axios.get(`/api/wp/tasks/${planId}`);
-    },
-    setTask: function(taskId, planId) {
-        return axios.put(`/api/wp/taskByPlanId`, {
-            taskId: taskId,
-            planId: planId
-        });
     }
 };

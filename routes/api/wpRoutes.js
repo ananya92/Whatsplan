@@ -324,20 +324,6 @@ router.get('/tasks/:planId', (req, res) => {
     });
 });
 
-router.put('/taskByPlanId', (req, res) => {
-    console.log("Reached inside taskByPlanId");
-    Task.findOneAndUpdate({ _id: req.body.taskId }, { planId: req.body.planId }, { new: true }, (err, task) => {
-        if (err) {
-            console.log(err);
-        }
-        else if (task) {
-            res.json(task);
-        }
-        else {
-            console.log("No task exists with id ", req.body.task_id);
-        }
-    });
-});
 
 module.exports = router;
 

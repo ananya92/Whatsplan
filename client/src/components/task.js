@@ -24,11 +24,6 @@ function Task(props) {
         text: ""
     });
     useEffect(() => {
-        API.setTask(props.taskId, state.currentPlan._id).then(response => {
-            console.log("Set plan ID",response.data);
-        }).catch(error => {
-            console.log("Error while setting planId in task: ", error);
-        });
         API.getTask(props.taskId).then(response => {
             setTaskState({ task: response.data });
 
