@@ -62,7 +62,8 @@ function Milestone(props) {
             taskName: taskRef.current.value,
             description: descRef.current.value,
             status: "Pending",
-            asignee: assignedState.asignee
+            asignee: assignedState.asignee,
+            planId: state.currentPlan._id
         })
             .then(response => {
                 taskRef.current.value = "";
