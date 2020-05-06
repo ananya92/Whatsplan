@@ -102,22 +102,22 @@ summary, .accordian-body {
 }
 
 .grey {
-  color: rgb(172, 168, 168);
+  color: #aca8a8;
   font-weight: 700;
 }
 
 .purple {
-  color: rgb(190, 9, 190);
+  color: #00aeff;
   font-weight: 700;
 }
 
 .green {
-  color: rgb(9, 223, 9);
+  color: #09dc09;
   font-weight: 700;
 }
 
 .red {
-  color: rgb(255, 40, 40);
+  color: #ff2828;
   font-weight: 700;
 }
 
@@ -159,7 +159,6 @@ summary, .accordian-body {
   font-size: 14px;
   color: black;
   cursor: pointer;
-  overflow-y: scroll;
   overflow-x: hidden;
   max-width: 20em;
   width: 20em;
@@ -186,3 +185,38 @@ summary, .accordian-body {
   text-align: center;
   color: purple;
 }
+
+.planStyle:hover {
+  background-color: rgb(240, 240, 240);
+}
+.planStyle .text{
+  white-space: normal;
+}
+
+.planStyle {
+  padding: 5px 10px;
+  overflow-wrap: normal;
+  font-size: 14px;
+  color: black;
+  cursor: pointer;
+  overflow-x: hidden;
+  max-width: 20em;
+  width: 20em;
+  border-bottom: 1px solid rgb(240, 240, 240);
+}
+
+.planDropdown {
+  border: 1px solid rgb(119, 118, 118);
+  border-radius: .28571429rem;
+  width: 100%;
+  font-size: 14px;
+  padding: 5px 10px;
+}
+
+.chartStyle {
+ margin: 10px auto;
+}
+
+ #reactgooglegraph-2, #reactgooglegraph-1 {
+  border: 1px solid #c9c7c7 !important;
+ }
