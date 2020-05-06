@@ -24,6 +24,11 @@ function Task(props) {
         text: ""
     });
     useEffect(() => {
+        API.setTask(props.taskId, state.currentPlan._id).then(response => {
+            console.log("Set plan ID",response.data);
+        }).catch(error => {
+            console.log("Error while setting planId in task: ", error);
+        });
         API.getTask(props.taskId).then(response => {
             setTaskState({ task: response.data });
 
@@ -111,7 +116,7 @@ function Task(props) {
                                         </Table.Cell>
                                         :
                                         <Table.Cell width={3}>
-                                            <Progress percent={Math.floor(progressState.percentage)} progress color={colorState.color} label={progressState.text} />
+                                            <Progress percent={Math.floor(progressState.percentage)} progress color='blue' label={progressState.text} />
                                         </Table.Cell>
                             }
                         </Table.Row>
