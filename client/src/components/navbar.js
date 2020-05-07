@@ -238,10 +238,10 @@ function Navbar(props) {
                                             <span className="text-secondary"><i className="fas fa-home"></i></span>
                                         </Link>
                                         <Link to="/login" className="btn btn-link text-secondary">
-                                            <span className="text-secondary">Login</span>
+                                            <span style={{fontSize: "14px"}} className="text-secondary">Login</span>
                                         </Link>
                                         <Link to="/signup" className="btn btn-link">
-                                            <span className="text-secondary">Sign up</span>
+                                            <span style={{fontSize: "14px"}} className="text-secondary">Sign up</span>
                                         </Link>
                                     </section>
                                 )}

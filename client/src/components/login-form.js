@@ -56,7 +56,7 @@ function LoginForm(props) {
     }
 
     return (
-        <div>
+        <div style={{padding: "10px"}}>
             <h4>Login</h4>
             <form className="form-horizontal" onSubmit={handleSubmit}>
                 <div className="form-group">

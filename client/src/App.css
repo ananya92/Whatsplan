@@ -223,9 +223,7 @@ summary, .accordian-body {
 }
 
 .carousalDiv {
-  border: 1px solid #BFBFBF;
   background-color: white;
-  box-shadow: 3px 3px 6px #aaaaaa;
   display: inline-block;
   min-height: fit-content;
   height: fit-content;

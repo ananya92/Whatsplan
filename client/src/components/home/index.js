@@ -121,7 +121,7 @@ function Home(props) {
         state.currentUser.email ?
             <div className="columns" style={{ marginBottom: "30px", overflow: "visible" }}>
                 <br />
-                <div style={{ marginRight: "10px" }} className="panel col-4 col-xs-12 col-sm-12 col-ml-auto">
+                <div style={{ marginRight: "10px", padding: "10px" }} className="panel col-4 col-xs-12 col-sm-12 col-ml-auto">
                     <div className="panel-header">
                         <div className="panel-title text-bold" style={{ textAlign: "left" }}><h4 style={{ fontSize: "large" }}>Your current plans:</h4></div>
                     </div>
@@ -141,7 +141,7 @@ function Home(props) {
                     </div>
                 </div>
                 <div style={{ marginLeft: "10px", overflow: "visible" }} className="col-7 col-xs-12 col-sm-12 col-mr-auto">
-                    <div style={{ overflow: "visible" }} className="panel">
+                    <div style={{ overflow: "visible", padding: "10px" }} className="panel">
                         <div className="panel-header">
                             <div className="panel-title text-bold"><h4 style={{ fontSize: "large" }} >Lets get started!</h4></div>
                         </div>
@@ -197,13 +197,14 @@ function Home(props) {
                 <h4 className="welcome">Welcome to Whatsplan app!</h4>
                 <p className="tagLine">"Helping people effortlessly plan and achieve their personal as well as professional goals."</p>
                 <p>Please <a style={{ color: "#ac12ac", fontWeight: 700 }} href="/login">Login</a> or <a style={{ color: "#ac12ac", fontWeight: 700 }} href="/signup">Sign up</a> to continue!</p>
-                <div className="carousalDiv col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-mx-auto">
+                <div className="carousalDiv col-10 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-10 col-mx-auto">
                     <CarouselProvider
                         naturalSlideWidth={20}
                         naturalSlideHeight={20}
                         totalSlides={3}
                         isPlaying={true}
                         step={1}
+                        infinite={true}
                     >
                         <Slider>
                             <Slide index={0}>
@@ -222,8 +223,6 @@ function Home(props) {
                                 />
                             </Slide>
                         </Slider>
-                        <ButtonBack>Back</ButtonBack>
-                        <ButtonNext>Next</ButtonNext>
                     </CarouselProvider>
                 </div>
             </div>
