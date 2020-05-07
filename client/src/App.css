@@ -226,12 +226,15 @@ summary, .accordian-body {
   border: 1px solid #BFBFBF;
   background-color: white;
   box-shadow: 3px 3px 6px #aaaaaa;
+  display: inline-block;
+  min-height: fit-content;
+  height: fit-content;
 }
 
 .tagLine {
   font-style: italic;
   font-size: 14px;
-  padding: 14px;
+  padding-bottom: 10px;
   color: rgb(172, 18, 172);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
@@ -240,4 +243,14 @@ summary, .accordian-body {
   padding-top: 5px;
   color: #ac12ac;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.carousalImg {
+  max-width: 100%;
+  max-height: auto;
+  object-fit: contain;
+}
+
+.image___xtQGH {
+  height: auto !important;
 }

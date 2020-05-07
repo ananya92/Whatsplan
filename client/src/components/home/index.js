@@ -4,10 +4,11 @@ import API from "../../utils/API";
 import { usePlanContext } from "../../utils/GlobalState";
 import history from "../../utils/history";
 import { withRouter } from "react-router";
-import Carousel from 'react-bootstrap/Carousel';
 import snap1 from "./img/snap1.jpg";
 import snap2 from "./img/snap2.jpg";
 import snap3 from "./img/snap3.jpg";
+import { CarouselProvider, Slider, Slide, Image, ButtonBack, ButtonNext } from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 
 function Home(props) {
     const planRef = useRef();
@@ -192,35 +193,39 @@ function Home(props) {
                 </div>
             </div>
             :
-            <div style={{ width: '100%', height: "100%" }}>
+            <div className="home" style={{ width: '100%', height: "fit-content" }}>
                 <h4 className="welcome">Welcome to Whatsplan app!</h4>
+                <p className="tagLine">"Helping people effortlessly plan and achieve their personal as well as professional goals."</p>
                 <p>Please <a style={{ color: "#ac12ac", fontWeight: 700 }} href="/login">Login</a> or <a style={{ color: "#ac12ac", fontWeight: 700 }} href="/signup">Sign up</a> to continue!</p>
                 <div className="carousalDiv col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-mx-auto">
-                    <Carousel interval={4000}>
-                        <Carousel.Item>
-                            <img
-                                className="d-block w-100"
-                                src={snap3}
-                                alt="First slide"
-                            />
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <img
-                                className="d-block w-100"
-                                src={snap1}
-                                alt="First slide"
-                            />
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <img
-                                className="d-block w-100"
-                                src={snap2}
-                                alt="First slide"
-                            />
-                        </Carousel.Item>
-                    </Carousel>
+                    <CarouselProvider
+                        naturalSlideWidth={20}
+                        naturalSlideHeight={20}
+                        totalSlides={3}
+                        isPlaying={true}
+                        step={1}
+                    >
+                        <Slider>
+                            <Slide index={0}>
+                                <Image className="carousalImg"
+                                    src={snap3}
+                                />
+                            </Slide>
+                            <Slide index={1}>
+                                <Image className="carousalImg"
+                                    src={snap1}
+                                />
+                            </Slide>
+                            <Slide index={2}>
+                                <Image className="carousalImg"
+                                    src={snap2}
+                                />
+                            </Slide>
+                        </Slider>
+                        <ButtonBack>Back</ButtonBack>
+                        <ButtonNext>Next</ButtonNext>
+                    </CarouselProvider>
                 </div>
-                <p className="tagLine">"Helping you effortlessly plan and achieve your personal as well as professional goals."</p>
             </div>
     )
 }
