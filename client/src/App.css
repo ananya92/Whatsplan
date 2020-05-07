@@ -217,3 +217,27 @@ summary, .accordian-body {
  margin: 10px auto;
  overflow: hidden;
 }
+
+.carousalLabel, .carousalText {
+  color: black;
+}
+
+.carousalDiv {
+  border: 1px solid #BFBFBF;
+  background-color: white;
+  box-shadow: 3px 3px 6px #aaaaaa;
+}
+
+.tagLine {
+  font-style: italic;
+  font-size: 14px;
+  padding: 14px;
+  color: rgb(172, 18, 172);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.welcome {
+  padding-top: 5px;
+  color: #ac12ac;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

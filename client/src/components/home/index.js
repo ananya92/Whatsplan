@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Dropdown, Button } from 'semantic-ui-react';
-import API from "../utils/API";
-import { usePlanContext } from "../utils/GlobalState";
-import history from "../utils/history";
+import API from "../../utils/API";
+import { usePlanContext } from "../../utils/GlobalState";
+import history from "../../utils/history";
 import { withRouter } from "react-router";
+import Carousel from 'react-bootstrap/Carousel';
+import snap1 from "./img/snap1.jpg";
+import snap2 from "./img/snap2.jpg";
+import snap3 from "./img/snap3.jpg";
 
 function Home(props) {
     const planRef = useRef();
@@ -17,7 +21,6 @@ function Home(props) {
     const [currentPlansState, setCurrentPlansState] = useState({
         currentPlans: []
     });
-
     useEffect(() => {
         // setting the planName state to null when home page is loaded so that the title bar shows Whatsplan instead of the plan name
         props.updateUser({ planName: null });
@@ -63,10 +66,10 @@ function Home(props) {
                     console.log(error);
                 })
         })
-        .catch(error => {
-            console.log('Getting registered users error: ')
-            console.log(error);
-        })
+            .catch(error => {
+                console.log('Getting registered users error: ')
+                console.log(error);
+            })
     }
     function handleFormSubmit(event) {
         event.preventDefault();
@@ -119,7 +122,7 @@ function Home(props) {
                 <br />
                 <div style={{ marginRight: "10px" }} className="panel col-4 col-xs-12 col-sm-12 col-ml-auto">
                     <div className="panel-header">
-                        <div className="panel-title text-bold" style={{textAlign: "left" }}><h4 style={{fontSize: "large"}}>Your current plans:</h4></div>
+                        <div className="panel-title text-bold" style={{ textAlign: "left" }}><h4 style={{ fontSize: "large" }}>Your current plans:</h4></div>
                     </div>
                     <div class="panel-body">
                         <form>
@@ -139,7 +142,7 @@ function Home(props) {
                 <div style={{ marginLeft: "10px", overflow: "visible" }} className="col-7 col-xs-12 col-sm-12 col-mr-auto">
                     <div style={{ overflow: "visible" }} className="panel">
                         <div className="panel-header">
-                            <div className="panel-title text-bold"><h4 style={{fontSize: "large"}} >Lets get started!</h4></div>
+                            <div className="panel-title text-bold"><h4 style={{ fontSize: "large" }} >Lets get started!</h4></div>
                         </div>
                         <div class="panel-body" style={{ overflow: "visible" }}>
                             <form className="form-horizontal" onSubmit={handleFormSubmit} style={{ overflow: "visible" }}>
@@ -189,9 +192,35 @@ function Home(props) {
                 </div>
             </div>
             :
-            <div style={{ width: '100%', height: "100%", background: 'url(/images/snip.jpg) center / cover' }}>
-                <h4>Welcome to Whatsplan app!</h4>
-                <p>Please <a style={{ color: "purple", fontWeight: 700 }} href="/login">Login</a> or <a style={{ color: "purple", fontWeight: 700 }} href="/signup">Sign up</a> to continue!</p>
+            <div style={{ width: '100%', height: "100%" }}>
+                <h4 className="welcome">Welcome to Whatsplan app!</h4>
+                <p>Please <a style={{ color: "#ac12ac", fontWeight: 700 }} href="/login">Login</a> or <a style={{ color: "#ac12ac", fontWeight: 700 }} href="/signup">Sign up</a> to continue!</p>
+                <div className="carousalDiv col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-9 col-mx-auto">
+                    <Carousel interval={4000}>
+                        <Carousel.Item>
+                            <img
+                                className="d-block w-100"
+                                src={snap3}
+                                alt="First slide"
+                            />
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img
+                                className="d-block w-100"
+                                src={snap1}
+                                alt="First slide"
+                            />
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img
+                                className="d-block w-100"
+                                src={snap2}
+                                alt="First slide"
+                            />
+                        </Carousel.Item>
+                    </Carousel>
+                </div>
+                <p className="tagLine">"Helping you effortlessly plan and achieve your personal as well as professional goals."</p>
             </div>
     )
 }
