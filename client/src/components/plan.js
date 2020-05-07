@@ -92,6 +92,7 @@ function Plan(props) {
                                 // Saving the new created milestone in the current plan in Global store
                                 console.log(res);
                                 dispatch({ type: "initPlan", data: res.data });
+                                setCurrentPlan({...currentPlan, plan: res.data});
                             }).catch(error => {
                                 console.log("Error while getting plan: ", error);
                             });
